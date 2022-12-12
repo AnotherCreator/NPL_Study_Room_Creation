@@ -12,6 +12,25 @@ import xlsxwriter
 from os.path import exists
 import logging
 
+# GLOBAL VARIABLES
+glob_study_rooms = {
+    "C1": "Study Room 1",
+    "D1": "Study Room 2",
+    "E1": "Study Room 3",
+    "F1": "Study Room 4",
+    "G1": "Study Room 5",
+    "H1": "Study Room 6",
+    "I1": "Study Room 7",
+    "J1": "Study Room 8",
+    "K1": "Study Room 9",
+    "L1": "Study Room 10",
+    "M1": "Study Room 11",
+    "N1": "Study Room 12",
+    "O1": "Conference Room",
+    "P1": "In Use",
+    "Q1": "Not In Use",
+}
+
 
 def create_excel_workbook(numeric_date):
     # Check if file was already created
@@ -86,10 +105,12 @@ def create_study_rooms(wb, ws):
     # Adjust column widths
     ws.set_column(2, 13, 17)  # Columns "C:N" with width of 17px
 
-    # Set rows to be manipulated
+    # Set row 1 column headers
+    # Create "Time" header
     ws.write("A1", "Time", headers)
-    ws.write("C1", "Study Room 1", headers)
-    ws.write("D1", "Study Room 2", headers)
+    # Create headers using "study_rooms" global var
+    for key in glob_study_rooms:
+        ws.write(key, glob_study_rooms.get(key), headers)
 
     return
 
