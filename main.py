@@ -1,3 +1,25 @@
+# MIT License
+#
+# Copyright (c) 2022 Josh R.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 import os.path
 from datetime import datetime
 
@@ -27,6 +49,21 @@ glob_study_rooms = {
     "M": "Study Room 11",
     "N": "Study Room 12",
     "O": "Conference Room"
+}
+
+glob_times = {
+    "A3:A6": "9:00",
+    "A7:A10": "10:00",
+    "A11:A14": "11:00",
+    "A15:A18": "12:00",
+    "A19:A22": "1:00",
+    "A23:A26": "2:00",
+    "A27:A30": "3:00",
+    "A31:A34": "4:00",
+    "A35:A38": "5:00",
+    "A39:A42": "6:00",
+    "A43:A46": "7:00",
+    "A47:A50": "8:00"
 }
 
 
@@ -60,9 +97,17 @@ def create_excel_workbook(numeric_date):
         # Add 'DayName Month DayNumber' sheets
         for date in numeric_date:
             string_date = date.strftime("%a %b %d")
-            ws = wb.add_worksheet(string_date)
-            create_study_rooms(wb, ws)
-            create_times(wb, ws)
+            ws = wb.add_worksheet(string_date)  # Add 'DayName Month DayNumber' sheets
+            create_study_rooms(wb, ws)  # Add room columns and formatting
+            if "Sun" in string_date:  # Create time format for Sundays
+                if "Jun" in string_date or "Jul" in string_date or "Aug" in string_date:
+                    create_summer_sun_format(wb, ws)
+                else:
+                    create_sun_format(wb, ws)
+            elif "Sat" in string_date:  # Create time format for Saturdays
+                create_sat_format(wb, ws)
+            else:
+                create_week_day_format(wb, ws)  # Create time format for weekdays
 
         logging.info("Adding '[Month] Total' sheets")
         # Add monthly total sheets after
@@ -154,26 +199,89 @@ def create_study_rooms(wb, ws):
             ws.write(key + "2", "Max Capacity: 8", general_headers)
         else:
             ws.write(key + "2", "Max Capacity: 4", general_headers)
-    return
 
-
-def create_times(wb, ws):
     return
 
 
 def create_cell_borders(wb, ws):
+
     return
 
 
-def create_sat_format(wb):
+def create_sat_format(wb, ws):
+    # Header formatting properties
+    general_headers = wb.add_format({"bold": True})
+    general_headers.set_font("Calibri")
+    general_headers.set_font_size(14)
+    general_headers.set_align("vcenter")
+    general_headers.set_align("center")
+
+    # Adjust column widths
+    ws.set_column(0, 0, 7.5)  # Hourly time width
+    ws.set_column(1, 1, 5.5)  # Quarter intervals
+
+    # Add hourly cells
+    for key in glob_times:
+        if "A38" in key or "A42" in key or "A46" in key or "A50" in key:
+            continue
+        ws.merge_range(key, glob_times.get(key), general_headers)
+
     return
 
 
-def create_sun_format():
+def create_sun_format(wb, ws):
+    # Header formatting properties
+    general_headers = wb.add_format({"bold": True})
+    general_headers.set_font("Calibri")
+    general_headers.set_font_size(14)
+    general_headers.set_align("vcenter")
+    general_headers.set_align("center")
+
+    for key in glob_times:
+        if "A6" in key \
+                or "A10" in key \
+                or "A14" in key \
+                or "A18" in key:
+            continue
+        ws.merge_range(key, glob_times.get(key), general_headers)
+
     return
 
 
-def create_week_day_format():
+def create_summer_sun_format(wb, ws):
+    # Header formatting properties
+    general_headers = wb.add_format({"bold": True})
+    general_headers.set_font("Calibri")
+    general_headers.set_font_size(14)
+    general_headers.set_align("vcenter")
+    general_headers.set_align("center")
+
+    for key in glob_times:
+        if "A6" in key \
+                or "A10" in key \
+                or "A14" in key \
+                or "A18" in key \
+                or "A38" in key \
+                or "A42" in key \
+                or "A46" in key \
+                or "A50" in key:
+            continue
+        ws.merge_range(key, glob_times.get(key), general_headers)
+
+    return
+
+
+def create_week_day_format(wb, ws):
+    # Header formatting properties
+    general_headers = wb.add_format({"bold": True})
+    general_headers.set_font("Calibri")
+    general_headers.set_font_size(14)
+    general_headers.set_align("vcenter")
+    general_headers.set_align("center")
+
+    for key in glob_times:
+        ws.merge_range(key, glob_times.get(key), general_headers)
+
     return
 
 
