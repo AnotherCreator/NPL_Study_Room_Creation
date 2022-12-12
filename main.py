@@ -20,19 +20,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import logging
 import os.path
 from datetime import datetime
-
-import openpyxl
-from UliEngineering.Utils.Date import *
-
-from openpyxl import *
-from openpyxl.styles import *
-import pandas as pd
-import xlsxwriter
-
 from os.path import exists
-import logging
+
+import xlsxwriter
+from UliEngineering.Utils.Date import *
+from openpyxl import *
 
 # GLOBAL VARIABLES
 glob_study_rooms = {
@@ -98,6 +93,8 @@ def create_excel_workbook(numeric_date):
         for date in numeric_date:
             string_date = date.strftime("%a %b %d")
             ws = wb.add_worksheet(string_date)  # Add 'DayName Month DayNumber' sheets
+
+            create_cell_borders(wb, ws)
             create_study_rooms(wb, ws)  # Add room columns and formatting
             if "Sun" in string_date:  # Create time format for Sundays
                 if "Jun" in string_date or "Jul" in string_date or "Aug" in string_date:
@@ -204,6 +201,12 @@ def create_study_rooms(wb, ws):
 
 
 def create_cell_borders(wb, ws):
+    # Cell formatting properties
+    column_borders = wb.add_format({"bold": True})
+    column_borders.set_left(1)
+    column_borders.set_right(1)
+
+    ws.write_blank("R1:R52", None, column_borders)
 
     return
 
