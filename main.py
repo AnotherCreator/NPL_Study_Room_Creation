@@ -94,6 +94,10 @@ def create_excel_workbook(numeric_date):
             string_date = date.strftime("%a %b %d")
             ws = wb.add_worksheet(string_date)  # Add 'DayName Month DayNumber' sheets
 
+            # Adjust column widths
+            ws.set_column(0, 0, 7.5)  # Hourly time width
+            ws.set_column(1, 1, 5.5)  # Quarter intervals
+
             create_cell_borders(wb, ws)
             create_study_rooms(wb, ws)  # Add room columns and formatting
             if "Sun" in string_date:  # Create time format for Sundays
@@ -218,10 +222,6 @@ def create_sat_format(wb, ws):
     general_headers.set_font_size(14)
     general_headers.set_align("vcenter")
     general_headers.set_align("center")
-
-    # Adjust column widths
-    ws.set_column(0, 0, 7.5)  # Hourly time width
-    ws.set_column(1, 1, 5.5)  # Quarter intervals
 
     # Add hourly cells
     for key in glob_times:
