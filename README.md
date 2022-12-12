@@ -1,5 +1,5 @@
 # An Automated Excel Workbook Creator
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 # Table of contents
 - [Features](#features)
@@ -14,4 +14,4 @@
 # Install
 
 # License
-[MIT](https://opensource.org/licenses/MIT) © 2022 AnotherCreator
+[MIT](LICENSE) © 2022 AnotherCreator
