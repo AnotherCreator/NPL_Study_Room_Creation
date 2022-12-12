@@ -64,6 +64,7 @@ def create_excel_workbook(numeric_date):
             string_date = date.strftime("%a %b %d")
             ws = wb.add_worksheet(string_date)
             create_study_rooms(wb, ws)
+            create_times(wb, ws)
 
         logging.info("Adding '[Month] Total' sheets")
         # Add monthly total sheets after
@@ -95,9 +96,14 @@ def get_days_of_next_year():
 
 def create_study_rooms(wb, ws):
     # Header formatting properties
-    headers = wb.add_format({"bold": True})
-    headers.set_font("Calibri")
-    headers.set_font_size(14)
+    general_headers = wb.add_format({"bold": True})
+    general_headers.set_font("Calibri")
+    general_headers.set_font_size(14)
+
+    conf_room_headers = wb.add_format({"bold": True})
+    conf_room_headers.set_font("Calibri")
+    conf_room_headers.set_bg_color("00B0F0")
+    conf_room_headers.set_font_size(14)
 
     capacity_two = wb.add_format({"bold": True})
     capacity_two.set_font("Calibri")
@@ -115,7 +121,7 @@ def create_study_rooms(wb, ws):
     capacity_six.set_font_size(14)
 
     # Freeze Panes
-    ws.freeze_panes("C3")
+    ws.freeze_panes("C3")  # This will freeze the study room and time information (Rows 1-2 / Columns A-B)
 
     # Adjust column widths
     ws.set_column(2, 13, 17)  # Study room columns "C:N" with width of 17
@@ -124,10 +130,11 @@ def create_study_rooms(wb, ws):
 
     # Set row 1 column headers
     # Create "Time" header
-    ws.write("A1", "Time", headers)
+    ws.write("A1", "Time", general_headers)
+
     # Create headers using "study_rooms" global var
     for key in glob_study_rooms:
-        ws.write(key + "1", glob_study_rooms.get(key), headers)
+        ws.write(key + "1", glob_study_rooms.get(key), general_headers)
         if glob_study_rooms.get(key) == "Study Room 5":
             ws.write(key + "2", "Max Capacity: 5", capacity_five)
         elif glob_study_rooms.get(key) == "Study Room 9":
@@ -135,11 +142,12 @@ def create_study_rooms(wb, ws):
         elif glob_study_rooms.get(key) == "Study Room 10" or glob_study_rooms.get(key) == "Study Room 11":
             ws.write(key + "2", "Max Capacity: 6", capacity_two)
         elif glob_study_rooms.get(key) == "Conference Room":
-            ws.write(key + "2", "Max Capacity: 8", headers)
+            ws.write(key + "1", glob_study_rooms.get(key), conf_room_headers)
+            ws.write(key + "2", "Max Capacity: 8", general_headers)
         elif key == "P" or key == "Q":
             continue
         else:
-            ws.write(key + "2", "Max Capacity: 4", headers)
+            ws.write(key + "2", "Max Capacity: 4", general_headers)
     return
 
 
