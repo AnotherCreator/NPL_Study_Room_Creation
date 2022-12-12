@@ -14,4 +14,4 @@
 # Install
 
 # License
-[MIT](../LICENSE) © 2022 AnotherCreator
+[MIT](https://opensource.org/licenses/MIT) © 2022 AnotherCreator
