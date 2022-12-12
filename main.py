@@ -26,9 +26,7 @@ glob_study_rooms = {
     "L": "Study Room 10",
     "M": "Study Room 11",
     "N": "Study Room 12",
-    "O": "Conference Room",
-    "P": "In Use",
-    "Q": "Not In Use",
+    "O": "Conference Room"
 }
 
 
@@ -120,6 +118,8 @@ def create_study_rooms(wb, ws):
     capacity_six.set_bg_color("lime")
     capacity_six.set_font_size(14)
 
+
+
     # Freeze Panes
     ws.freeze_panes("C3")  # This will freeze the study room and time information (Rows 1-2 / Columns A-B)
 
@@ -144,8 +144,6 @@ def create_study_rooms(wb, ws):
         elif glob_study_rooms.get(key) == "Conference Room":
             ws.write(key + "1", glob_study_rooms.get(key), conf_room_headers)
             ws.write(key + "2", "Max Capacity: 8", general_headers)
-        elif key == "P" or key == "Q":
-            continue
         else:
             ws.write(key + "2", "Max Capacity: 4", general_headers)
     return
