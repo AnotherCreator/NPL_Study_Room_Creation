@@ -14,21 +14,21 @@ import logging
 
 # GLOBAL VARIABLES
 glob_study_rooms = {
-    "C1": "Study Room 1",
-    "D1": "Study Room 2",
-    "E1": "Study Room 3",
-    "F1": "Study Room 4",
-    "G1": "Study Room 5",
-    "H1": "Study Room 6",
-    "I1": "Study Room 7",
-    "J1": "Study Room 8",
-    "K1": "Study Room 9",
-    "L1": "Study Room 10",
-    "M1": "Study Room 11",
-    "N1": "Study Room 12",
-    "O1": "Conference Room",
-    "P1": "In Use",
-    "Q1": "Not In Use",
+    "C": "Study Room 1",
+    "D": "Study Room 2",
+    "E": "Study Room 3",
+    "F": "Study Room 4",
+    "G": "Study Room 5",
+    "H": "Study Room 6",
+    "I": "Study Room 7",
+    "J": "Study Room 8",
+    "K": "Study Room 9",
+    "L": "Study Room 10",
+    "M": "Study Room 11",
+    "N": "Study Room 12",
+    "O": "Conference Room",
+    "P": "In Use",
+    "Q": "Not In Use",
 }
 
 
@@ -95,23 +95,51 @@ def get_days_of_next_year():
 
 def create_study_rooms(wb, ws):
     # Header formatting properties
-    headers = wb.add_format({'bold': True})
-    headers.set_font('Calibri')
+    headers = wb.add_format({"bold": True})
+    headers.set_font("Calibri")
     headers.set_font_size(14)
+
+    capacity_two = wb.add_format({"bold": True})
+    capacity_two.set_font("Calibri")
+    capacity_two.set_bg_color("red")
+    capacity_two.set_font_size(14)
+
+    capacity_five = wb.add_format({"bold": True})
+    capacity_five.set_font("Calibri")
+    capacity_five.set_bg_color("yellow")
+    capacity_five.set_font_size(14)
+
+    capacity_six = wb.add_format({"bold": True})
+    capacity_six.set_font("Calibri")
+    capacity_six.set_bg_color("green")
+    capacity_six.set_font_size(14)
 
     # Freeze Panes
     ws.freeze_panes("C3")
 
     # Adjust column widths
-    ws.set_column(2, 13, 17)  # Columns "C:N" with width of 17px
+    ws.set_column(2, 13, 17)  # Study room columns "C:N" with width of 17
+    ws.set_column(14, 14, 18)  # Conference room column with width of 18
+    ws.set_column(15, 16, 10)  # Color legend columns with width of 10
 
     # Set row 1 column headers
     # Create "Time" header
     ws.write("A1", "Time", headers)
     # Create headers using "study_rooms" global var
     for key in glob_study_rooms:
-        ws.write(key, glob_study_rooms.get(key), headers)
-
+        ws.write(key + "1", glob_study_rooms.get(key), headers)
+        if glob_study_rooms.get(key) == "Study Room 5":
+            ws.write(key + "2", "Max Capacity: 5", capacity_five)
+        elif glob_study_rooms.get(key) == "Study Room 9":
+            ws.write(key + "2", "Max Capacity: 6", capacity_six)
+        elif glob_study_rooms.get(key) == "Study Room 10" or glob_study_rooms.get(key) == "Study Room 11":
+            ws.write(key + "2", "Max Capacity: 6", capacity_two)
+        elif glob_study_rooms.get(key) == "Conference Room":
+            ws.write(key + "2", "Max Capacity: 8", headers)
+        elif key == "P" or key == "Q":
+            continue
+        else:
+            ws.write(key + "2", "Max Capacity: 4", headers)
     return
 
 
