@@ -111,7 +111,7 @@ def create_study_rooms(wb, ws):
 
     capacity_six = wb.add_format({"bold": True})
     capacity_six.set_font("Calibri")
-    capacity_six.set_bg_color("green")
+    capacity_six.set_bg_color("lime")
     capacity_six.set_font_size(14)
 
     # Freeze Panes
