@@ -154,12 +154,12 @@ def create_excel_workbook(numeric_date):
         return wb
 
 
-def get_days_of_current_year():
+def get_days_of_current_year(year):
     # 'date' format: (year, month, day)
     # Does not include weekday name
     days_in_a_year = []
 
-    for x in all_dates_in_year(datetime.now().year):
+    for x in all_dates_in_year(year):
         numeric_date = datetime(x.year, x.month, x.day)
         days_in_a_year.append(numeric_date)
 
@@ -307,8 +307,10 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     logging.info("Starting program")
 
-    logging.info("Entering function: get_days_of_next_year()")
-    date = get_days_of_current_year()
+    userinput_year = int(input("\nEnter the year (E.G. 2023) that you wish to create the Study Room Log for: \n"))
+
+    logging.info("Entering function: get_days_of_current_year()")
+    date = get_days_of_current_year(userinput_year)
 
     logging.info("Entering function: create_excel_workbook()")
     workbook = create_excel_workbook(date)
