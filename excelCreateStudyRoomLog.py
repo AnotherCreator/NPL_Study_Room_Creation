@@ -119,6 +119,7 @@ def create_excel_workbook(numeric_date):
 
         logging.info("Adding '[DayName] [Month] [DayNumber]' sheets")
         # Add 'DayName Month DayNumber' sheets
+        # This will iterate through all known dates of the year
         for date in numeric_date:
             string_date = date.strftime("%a %b %d")
             ws = wb.add_worksheet(string_date)  # Add 'DayName Month DayNumber' sheets
@@ -127,8 +128,12 @@ def create_excel_workbook(numeric_date):
             ws.set_column(0, 0, 7.5)  # Hourly time width
             ws.set_column(1, 1, 5.5)  # Quarter intervals
 
-            create_cell_borders(wb, ws)
+            # General worksheet formatting
+            create_cell_borders(wb, ws)  # Add cell borders
             create_study_rooms(wb, ws)  # Add room columns and formatting
+            create_formulas(wb, ws)  # Add formulas
+
+            # Create y-axis time blocks
             if "Sun" in string_date:  # Create time format for Sundays
                 if "Jun" in string_date or "Jul" in string_date or "Aug" in string_date:
                     create_summer_sun_format(wb, ws)
@@ -142,7 +147,7 @@ def create_excel_workbook(numeric_date):
         logging.info("Adding '[Month] Total' sheets")
         # Add monthly total sheets after
         for month in months:
-            worksheet = wb.add_worksheet(month + " Totals")
+            wb.add_worksheet(month + " Totals")
 
         logging.info("Adding '[Year] Total' sheet")
         # Add yearly total sheet at the end
@@ -238,6 +243,14 @@ def create_cell_borders(wb, ws):
     column_borders = wb.add_format({"bold": True})
     column_borders.set_left(1)
     column_borders.set_right(1)
+
+    return
+
+
+def create_formulas(wb, ws):
+    # Formula to count total study / conference room occupants in a day
+    ws.write("P3", "#users")
+    ws.write_formula("Q3", "=COUNTA(C3:O50)")
 
     return
 
