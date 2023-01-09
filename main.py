@@ -14,7 +14,7 @@
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
 # AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
@@ -46,7 +46,7 @@ glob_study_rooms = {
     "O": "Conference Room"
 }
 
-glob_times = {
+glob_times_weekdays = {
     "A3:A6": "9:00",
     "A7:A10": "10:00",
     "A11:A14": "11:00",
@@ -61,16 +61,45 @@ glob_times = {
     "A47:A50": "8:00"
 }
 
+glob_times_sat = {
+    "A3:A6": "9:00",
+    "A7:A10": "10:00",
+    "A11:A14": "11:00",
+    "A15:A18": "12:00",
+    "A19:A22": "1:00",
+    "A23:A26": "2:00",
+    "A27:A30": "3:00",
+    "A31:A34": "4:00"
+}
+
+glob_times_sun_sept_to_may = {
+    "A3:A6": "1:00",
+    "A7:A10": "2:00",
+    "A11:A14": "3:00",
+    "A15:A18": "4:00",
+    "A19:A22": "5:00",
+    "A23:A26": "6:00",
+    "A27:A30": "7:00",
+    "A31:A34": "8:00"
+}
+
+glob_times_sun_june_to_aug = {
+    "A3:A6": "1:00",
+    "A7:A10": "2:00",
+    "A11:A14": "3:00",
+    "A15:A18": "4:00"
+}
+
 
 def create_excel_workbook(numeric_date):
     # Check if file was already created
-    logging.info("Attempting to create: Test " + str(datetime.now().year + 1) + " Study Room Log.xlsx")
-    if exists("Test " + str(datetime.now().year + 1) + " Study Room Log.xlsx"):
+    logging.info("Attempting to create: Test " + str(datetime.now().year) + " Study Room Log.xlsx")
+    if exists("Test " + str(datetime.now().year) + " Study Room Log.xlsx"):
         logging.info("Existing file found, file not created")
         logging.info("Attempting to fetch file: "
-                     + os.path.basename("Test " + str(datetime.now().year + 1) + " Study Room Log.xlsx"))
+                     + os.path.basename("Test " + str(datetime.now().year) + " Study Room Log.xlsx"))
 
-        existing_file = os.path.basename("Test " + str(datetime.now().year + 1) + " Study Room Log.xlsx")
+        existing_file = os.path.basename("Test " + str(datetime.now().year) + " Study Room Log.xlsx")
         wb = load_workbook(existing_file)
 
         logging.info("File successfully fetched")
@@ -78,10 +107,10 @@ def create_excel_workbook(numeric_date):
         return wb
     # Create Excel file if it does not exist
     else:
-        logging.info("Test " + str(datetime.now().year + 1) + " Study Room Log.xlsx NOT FOUND")
-        logging.info("Creating: Test " + str(datetime.now().year + 1) + " Study Room Log.xlsx")
+        logging.info("Test " + str(datetime.now().year) + " Study Room Log.xlsx NOT FOUND")
+        logging.info("Creating: Test " + str(datetime.now().year) + " Study Room Log.xlsx")
 
-        wb = xlsxwriter.Workbook("Test " + str(datetime.now().year + 1) + " Study Room Log.xlsx")
+        wb = xlsxwriter.Workbook("Test " + str(datetime.now().year) + " Study Room Log.xlsx")
 
         # List of months
         months = ["January", "February", "March", "April",
@@ -125,12 +154,12 @@ def create_excel_workbook(numeric_date):
         return wb
 
 
-def get_days_of_next_year():
+def get_days_of_current_year():
     # 'date' format: (year, month, day)
     # Does not include weekday name
     days_in_a_year = []
 
-    for x in all_dates_in_year(datetime.now().year + 1):
+    for x in all_dates_in_year(datetime.now().year):
         numeric_date = datetime(x.year, x.month, x.day)
         days_in_a_year.append(numeric_date)
 
@@ -210,8 +239,6 @@ def create_cell_borders(wb, ws):
     column_borders.set_left(1)
     column_borders.set_right(1)
 
-    ws.write_blank("R1:R52", None, column_borders)
-
     return
 
 
@@ -224,10 +251,10 @@ def create_sat_format(wb, ws):
     general_headers.set_align("center")
 
     # Add hourly cells
-    for key in glob_times:
+    for key in glob_times_weekdays:
         if "A38" in key or "A42" in key or "A46" in key or "A50" in key:
             continue
-        ws.merge_range(key, glob_times.get(key), general_headers)
+        ws.merge_range(key, glob_times_weekdays.get(key), general_headers)
 
     return
 
@@ -240,13 +267,8 @@ def create_sun_format(wb, ws):
     general_headers.set_align("vcenter")
     general_headers.set_align("center")
 
-    for key in glob_times:
-        if "A6" in key \
-                or "A10" in key \
-                or "A14" in key \
-                or "A18" in key:
-            continue
-        ws.merge_range(key, glob_times.get(key), general_headers)
+    for key in glob_times_sun_sept_to_may:
+        ws.merge_range(key, glob_times_sun_sept_to_may.get(key), general_headers)
 
     return
 
@@ -259,17 +281,8 @@ def create_summer_sun_format(wb, ws):
     general_headers.set_align("vcenter")
     general_headers.set_align("center")
 
-    for key in glob_times:
-        if "A6" in key \
-                or "A10" in key \
-                or "A14" in key \
-                or "A18" in key \
-                or "A38" in key \
-                or "A42" in key \
-                or "A46" in key \
-                or "A50" in key:
-            continue
-        ws.merge_range(key, glob_times.get(key), general_headers)
+    for key in glob_times_sun_june_to_aug:
+        ws.merge_range(key, glob_times_sun_june_to_aug.get(key), general_headers)
 
     return
 
@@ -282,10 +295,11 @@ def create_week_day_format(wb, ws):
     general_headers.set_align("vcenter")
     general_headers.set_align("center")
 
-    for key in glob_times:
-        ws.merge_range(key, glob_times.get(key), general_headers)
+    for key in glob_times_weekdays:
+        ws.merge_range(key, glob_times_weekdays.get(key), general_headers)
 
-    return
+    ws.write("B3", "9:00")
+    ws.write("B4", "9:15")
 
 
 # Main
@@ -294,7 +308,7 @@ if __name__ == '__main__':
     logging.info("Starting program")
 
     logging.info("Entering function: get_days_of_next_year()")
-    date = get_days_of_next_year()
+    date = get_days_of_current_year()
 
     logging.info("Entering function: create_excel_workbook()")
     workbook = create_excel_workbook(date)
