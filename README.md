@@ -17,7 +17,7 @@ These sheets include:
 - [License](#license)
 
 # Usage
-After 
+Simply run the .exe file and type into the screen what year you would like the generate the study room log for (e.g. 2023). The program will then create the corresponding file with the appropriate labels.
 
 # Install
 ### Software Requirements
