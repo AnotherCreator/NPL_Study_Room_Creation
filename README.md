@@ -31,4 +31,5 @@ After
 - [XlsxWriter >3.0.3 ](https://pypi.org/project/XlsxWriter/)
 
 # License
-[MIT](LICENSE) © 2022 AnotherCreator
+[MIT](LICENSE) © Josh Reginaldo
+
