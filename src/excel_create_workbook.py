@@ -93,7 +93,7 @@ glob_times_sun_june_to_aug = {
 }
 
 
-def create_excel_workbook(numeric_date):
+def init_workbook(numeric_date):
     # Check if file was already created
     logging.info("Attempting to create: Test " + str(datetime.now().year) + " Study Room Log.xlsx")
     if exists("Test " + str(datetime.now().year) + " Study Room Log.xlsx"):
@@ -318,19 +318,3 @@ def create_week_day_format(wb, ws):
 
     ws.write("B3", "9:00")
     ws.write("B4", "9:15")
-
-
-# Main
-if __name__ == '__main__':
-    logging.basicConfig(level=logging.INFO)
-    logging.info("Starting program")
-
-    userinput_year = int(input("\nEnter the year (E.G. 2023) that you wish to create the Study Room Log for: \n"))
-
-    logging.info("Entering function: get_days_of_current_year()")
-    date = get_days_of_current_year(userinput_year)
-
-    logging.info("Entering function: create_excel_workbook()")
-    create_excel_workbook(date)
-
-    logging.info("Ending program")
