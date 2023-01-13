@@ -95,13 +95,13 @@ glob_times_sun_june_to_aug = {
 
 def init_workbook(numeric_date, input_year):
     # Check if file was already created
-    logging.info("Attempting to create: Test " + input_year + " Study Room Log.xlsx")
-    if exists("Test " + input_year + " Study Room Log.xlsx"):
+    logging.info("Attempting to create: Test " + str(input_year) + " Study Room Log.xlsx")
+    if exists("Test " + str(input_year) + " Study Room Log.xlsx"):
         logging.info("Existing file found, file not created")
         logging.info("Attempting to fetch file: "
-                     + os.path.basename("Test " + input_year + " Study Room Log.xlsx"))
+                     + os.path.basename("Test " + str(input_year) + " Study Room Log.xlsx"))
 
-        existing_file = os.path.basename("Test " + input_year + " Study Room Log.xlsx")
+        existing_file = os.path.basename("Test " + str(input_year) + " Study Room Log.xlsx")
         wb = load_workbook(existing_file)
 
         logging.info("File successfully fetched")
@@ -109,10 +109,10 @@ def init_workbook(numeric_date, input_year):
         return wb
     # Create Excel file if it does not exist
     else:
-        logging.info("Test " + input_year + " Study Room Log.xlsx NOT FOUND")
-        logging.info("Creating: Test " + input_year + " Study Room Log.xlsx")
+        logging.info("Test " + str(input_year) + " Study Room Log.xlsx NOT FOUND")
+        logging.info("Creating: Test " + str(input_year) + " Study Room Log.xlsx")
 
-        wb = xlsxwriter.Workbook("Test " + input_year + " Study Room Log.xlsx")
+        wb = xlsxwriter.Workbook("Test " + str(input_year) + " Study Room Log.xlsx")
 
         # List of months
         months = ["January", "February", "March", "April",
