@@ -1,6 +1,6 @@
 # MIT License
 #
-# Copyright (c) 2022 Josh R.
+# Copyright (c) 2022 Josh Reginaldo (https://github.com/AnotherCreator)
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -25,9 +25,11 @@ import os.path
 from datetime import datetime
 from os.path import exists
 
-import xlsxwriter
+import xlsxwriter  # https://xlsxwriter.readthedocs.io/index.html
 from UliEngineering.Utils.Date import *
 from openpyxl import *
+
+import xlsx_formatting
 
 # GLOBAL VARIABLES
 glob_study_rooms = {
@@ -145,13 +147,15 @@ def create_excel_workbook(numeric_date):
                 create_week_day_format(wb, ws)  # Create time format for weekdays
 
         logging.info("Adding '[Month] Total' sheets")
-        # Add monthly total sheets after
+        # Add monthly total sheets
         for month in months:
             wb.add_worksheet(month + " Totals")
+            # TODO: ADD FORMATTING / FORMULAS FOR DAILY TOTAL USERS AND MONTH GRAND TOTAL
 
         logging.info("Adding '[Year] Total' sheet")
         # Add yearly total sheet at the end
         wb.add_worksheet(str(datetime.now().year + 1) + " Totals")
+        # TODO: ADD FORMATTING / FORMULAS FOR MONTHLY TOTAL USERS AND YEAR GRAND TOTAL
 
         wb.close()
 
@@ -238,6 +242,7 @@ def create_study_rooms(wb, ws):
     return
 
 
+# TODO: ADD CELL BORDER FORMATTING
 def create_cell_borders(wb, ws):
     # Cell formatting properties
     column_borders = wb.add_format({"bold": True})
@@ -326,6 +331,6 @@ if __name__ == '__main__':
     date = get_days_of_current_year(userinput_year)
 
     logging.info("Entering function: create_excel_workbook()")
-    workbook = create_excel_workbook(date)
+    create_excel_workbook(date)
 
     logging.info("Ending program")
