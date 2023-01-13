@@ -60,7 +60,7 @@ def main():
     # Send the lists of dates to be used for each individual workbook worksheet page
     logging.info("Entering file 'excel_create_workbook.py'"
                  "and attempting to call function 'init_workbook'")
-    create_workbook.init_workbook(list_of_dates)
+    create_workbook.init_workbook(list_of_dates, userinput_year)
 
     logging.info("Ending program")
 
