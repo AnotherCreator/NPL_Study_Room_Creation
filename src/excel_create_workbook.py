@@ -31,66 +31,80 @@ from openpyxl import *
 
 import xlsx_formatting
 
-# GLOBAL VARIABLES
-glob_study_rooms = {
-    "C": "Study Room 1",
-    "D": "Study Room 2",
-    "E": "Study Room 3",
-    "F": "Study Room 4",
-    "G": "Study Room 5",
-    "H": "Study Room 6",
-    "I": "Study Room 7",
-    "J": "Study Room 8",
-    "K": "Study Room 9",
-    "L": "Study Room 10",
-    "M": "Study Room 11",
-    "N": "Study Room 12",
-    "O": "Conference Room"
-}
 
-glob_times_weekdays = {
-    "A3:A6": "9:00",
-    "A7:A10": "10:00",
-    "A11:A14": "11:00",
-    "A15:A18": "12:00",
-    "A19:A22": "1:00",
-    "A23:A26": "2:00",
-    "A27:A30": "3:00",
-    "A31:A34": "4:00",
-    "A35:A38": "5:00",
-    "A39:A42": "6:00",
-    "A43:A46": "7:00",
-    "A47:A50": "8:00"
-}
+def study_rooms():
+    dict_study_rooms = {
+        "C": "Study Room 1",
+        "D": "Study Room 2",
+        "E": "Study Room 3",
+        "F": "Study Room 4",
+        "G": "Study Room 5",
+        "H": "Study Room 6",
+        "I": "Study Room 7",
+        "J": "Study Room 8",
+        "K": "Study Room 9",
+        "L": "Study Room 10",
+        "M": "Study Room 11",
+        "N": "Study Room 12",
+        "O": "Conference Room"
+    }
+    return dict_study_rooms
 
-glob_times_sat = {
-    "A3:A6": "9:00",
-    "A7:A10": "10:00",
-    "A11:A14": "11:00",
-    "A15:A18": "12:00",
-    "A19:A22": "1:00",
-    "A23:A26": "2:00",
-    "A27:A30": "3:00",
-    "A31:A34": "4:00"
-}
 
-glob_times_sun_sept_to_may = {
-    "A3:A6": "1:00",
-    "A7:A10": "2:00",
-    "A11:A14": "3:00",
-    "A15:A18": "4:00",
-    "A19:A22": "5:00",
-    "A23:A26": "6:00",
-    "A27:A30": "7:00",
-    "A31:A34": "8:00"
-}
+def times_weekdays():
+    dict_times_weekdays = {
+        "A3:A6": "9:00",
+        "A7:A10": "10:00",
+        "A11:A14": "11:00",
+        "A15:A18": "12:00",
+        "A19:A22": "1:00",
+        "A23:A26": "2:00",
+        "A27:A30": "3:00",
+        "A31:A34": "4:00",
+        "A35:A38": "5:00",
+        "A39:A42": "6:00",
+        "A43:A46": "7:00",
+        "A47:A50": "8:00"
+    }
+    return dict_times_weekdays
 
-glob_times_sun_june_to_aug = {
-    "A3:A6": "1:00",
-    "A7:A10": "2:00",
-    "A11:A14": "3:00",
-    "A15:A18": "4:00"
-}
+
+def times_sat():
+    dict_times_sat = {
+        "A3:A6": "9:00",
+        "A7:A10": "10:00",
+        "A11:A14": "11:00",
+        "A15:A18": "12:00",
+        "A19:A22": "1:00",
+        "A23:A26": "2:00",
+        "A27:A30": "3:00",
+        "A31:A34": "4:00"
+    }
+    return dict_times_sat
+
+
+def times_sun_sept_to_may():
+    dict_times_sun_sept_to_may = {
+        "A3:A6": "1:00",
+        "A7:A10": "2:00",
+        "A11:A14": "3:00",
+        "A15:A18": "4:00",
+        "A19:A22": "5:00",
+        "A23:A26": "6:00",
+        "A27:A30": "7:00",
+        "A31:A34": "8:00"
+    }
+    return dict_times_sun_sept_to_may
+
+
+def times_sun_june_to_aug():
+    dict_times_sun_june_to_aug = {
+        "A3:A6": "1:00",
+        "A7:A10": "2:00",
+        "A11:A14": "3:00",
+        "A15:A18": "4:00"
+    }
+    return dict_times_sun_june_to_aug
 
 
 def init_workbook(numeric_date, input_year):
@@ -161,19 +175,6 @@ def init_workbook(numeric_date, input_year):
 
         logging.info("Leaving function: create_excel_workbook()")
         return wb
-
-
-def get_days_of_current_year(year):
-    # 'date' format: (year, month, day)
-    # Does not include weekday name
-    days_in_a_year = []
-
-    for x in all_dates_in_year(year):
-        numeric_date = datetime(x.year, x.month, x.day)
-        days_in_a_year.append(numeric_date)
-
-    logging.info("Leaving function: get_days_of_next_year()")
-    return days_in_a_year
 
 
 def create_study_rooms(wb, ws):
