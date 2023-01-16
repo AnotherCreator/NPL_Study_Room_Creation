@@ -26,7 +26,6 @@ from datetime import datetime
 from os.path import exists
 
 import xlsxwriter  # https://xlsxwriter.readthedocs.io/index.html
-from UliEngineering.Utils.Date import *
 from openpyxl import *
 
 import xlsx_formatting
