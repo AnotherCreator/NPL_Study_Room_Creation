@@ -28,9 +28,6 @@ from os.path import exists
 import xlsxwriter  # https://xlsxwriter.readthedocs.io/index.html
 from openpyxl import *
 
-import xlsx_formatting
-
-
 def study_rooms():
     dict_study_rooms = {
         "C": "Study Room 1",
