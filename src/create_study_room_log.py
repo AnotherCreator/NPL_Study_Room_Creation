@@ -55,7 +55,7 @@ def main():
     # Attempt to get a list of all days of 'userinput_year'
     logging.info("Entering file 'excel_create_workbook.py'"
                  "and attempting to call function 'get_days_of_current_year'")
-    list_of_dates = create_workbook.get_days_of_current_year(userinput_year)
+    list_of_dates = get_days_of_current_year(userinput_year)
 
     # Send the lists of dates to be used for each individual workbook worksheet page
     logging.info("Entering file 'excel_create_workbook.py'"

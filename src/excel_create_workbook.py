@@ -226,16 +226,16 @@ def create_study_rooms(wb, ws):
     ws.merge_range("A1:B2", "Time", general_headers)
 
     # Create headers using "study_rooms" global var
-    for key in glob_study_rooms:
-        ws.write(key + "1", glob_study_rooms.get(key), general_headers)
-        if glob_study_rooms.get(key) == "Study Room 5":
+    for key in study_rooms():
+        ws.write(key + "1", study_rooms().get(key), general_headers)
+        if study_rooms().get(key) == "Study Room 5":
             ws.write(key + "2", "Max Capacity: 5", capacity_five)
-        elif glob_study_rooms.get(key) == "Study Room 9":
+        elif study_rooms().get(key) == "Study Room 9":
             ws.write(key + "2", "Max Capacity: 6", capacity_six)
-        elif glob_study_rooms.get(key) == "Study Room 10" or glob_study_rooms.get(key) == "Study Room 11":
+        elif study_rooms().get(key) == "Study Room 10" or study_rooms().get(key) == "Study Room 11":
             ws.write(key + "2", "Max Capacity: 6", capacity_two)
-        elif glob_study_rooms.get(key) == "Conference Room":
-            ws.write(key + "1", glob_study_rooms.get(key), conf_room_headers)
+        elif study_rooms().get(key) == "Conference Room":
+            ws.write(key + "1", study_rooms().get(key), conf_room_headers)
             ws.write(key + "2", "Max Capacity: 8", general_headers)
         else:
             ws.write(key + "2", "Max Capacity: 4", general_headers)
@@ -270,10 +270,10 @@ def create_sat_format(wb, ws):
     general_headers.set_align("center")
 
     # Add hourly cells
-    for key in glob_times_weekdays:
+    for key in times_weekdays():
         if "A38" in key or "A42" in key or "A46" in key or "A50" in key:
             continue
-        ws.merge_range(key, glob_times_weekdays.get(key), general_headers)
+        ws.merge_range(key, times_weekdays().get(key), general_headers)
 
     return
 
@@ -286,8 +286,8 @@ def create_sun_format(wb, ws):
     general_headers.set_align("vcenter")
     general_headers.set_align("center")
 
-    for key in glob_times_sun_sept_to_may:
-        ws.merge_range(key, glob_times_sun_sept_to_may.get(key), general_headers)
+    for key in times_sun_sept_to_may():
+        ws.merge_range(key, times_sun_sept_to_may().get(key), general_headers)
 
     return
 
@@ -300,8 +300,8 @@ def create_summer_sun_format(wb, ws):
     general_headers.set_align("vcenter")
     general_headers.set_align("center")
 
-    for key in glob_times_sun_june_to_aug:
-        ws.merge_range(key, glob_times_sun_june_to_aug.get(key), general_headers)
+    for key in times_sun_june_to_aug():
+        ws.merge_range(key, times_sun_june_to_aug().get(key), general_headers)
 
     return
 
@@ -314,8 +314,8 @@ def create_week_day_format(wb, ws):
     general_headers.set_align("vcenter")
     general_headers.set_align("center")
 
-    for key in glob_times_weekdays:
-        ws.merge_range(key, glob_times_weekdays.get(key), general_headers)
+    for key in times_weekdays():
+        ws.merge_range(key, times_weekdays().get(key), general_headers)
 
     ws.write("B3", "9:00")
     ws.write("B4", "9:15")
