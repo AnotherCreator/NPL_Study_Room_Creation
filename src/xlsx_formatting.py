@@ -26,6 +26,28 @@
 
 import excel_create_workbook as ecw
 
+def nine_am_interval_time(ws):
+    # 9 AM Formatting
+    n = 0
+    for x in range(3, 7):
+        if n == 0:
+            ws.write("B" + str(x), "9:00")
+            n += 15
+        else:
+            ws.write("B" + str(x), "9:" + str(n))
+            n += 15
+
+def ten_am_interval_time(ws):
+    # 9 AM Formatting
+    n = 0
+    for x in range(7, 11):
+        if n == 0:
+            ws.write("B" + str(x), "10:00")
+            n += 15
+        else:
+            ws.write("B" + str(x), "10:" + str(n))
+            n += 15
+
 # TODO: ADD CELL BORDER FORMATTING
 def create_cell_borders(wb, ws):
     # Cell formatting properties
@@ -38,8 +60,8 @@ def create_cell_borders(wb, ws):
 
 def create_formulas(wb, ws):
     # Formula to count total study / conference room occupants in a day
-    ws.write("P3", "#users")
-    ws.write_formula("Q3", "=COUNTA(C3:N50)+COUNTA(P3:P50)")
+    ws.merge_range("A52:B52", "Users")
+    ws.write_formula("C52", "=COUNTA(C3:N50)+COUNTA(P3:P50)")
 
     return
 
@@ -100,8 +122,5 @@ def create_week_day_format(wb, ws):
     for key in ecw.times_weekdays():
         ws.merge_range(key, ecw.times_weekdays().get(key), general_headers)
 
-    # for x in range(3, 51):
-    #     ws.write("B" + )
-
-    ws.write("B3", "9:00")
-    ws.write("B4", "9:15")
+    nine_am_interval_time(ws)
+    ten_am_interval_time(ws)
