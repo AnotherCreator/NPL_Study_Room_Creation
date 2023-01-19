@@ -26,27 +26,99 @@
 
 import excel_create_workbook as ecw
 
-def nine_am_interval_time(ws):
-    # 9 AM Formatting
-    n = 0
-    for x in range(3, 7):
-        if n == 0:
-            ws.write("B" + str(x), "9:00")
-            n += 15
-        else:
-            ws.write("B" + str(x), "9:" + str(n))
-            n += 15
 
-def ten_am_interval_time(ws):
-    # 9 AM Formatting
-    n = 0
-    for x in range(7, 11):
-        if n == 0:
-            ws.write("B" + str(x), "10:00")
-            n += 15
+def weekday_interval_times(ws):
+    hour_interval = 9  # Open hours always start at 9 AM
+    min_interval = 0  # 15 min interval
+    column_name = "B"  # Letter of column holding 15-min intervals
+    for x in range(3, 51):
+        if min_interval == 60:  # Reset interval counter before each hour
+            min_interval = 0
+
+        if x < 7:
+            if min_interval == 0:
+                ws.write(column_name + str(x), "9:00")
+                min_interval += 15
+            else:
+                ws.write("B" + str(x), "9:" + str(min_interval))
+                min_interval += 15
+        elif 6 < x < 11:
+            if min_interval == 0:
+                ws.write(column_name + str(x), "10:00")
+                min_interval += 15
+            else:
+                ws.write("B" + str(x), "10:" + str(min_interval))
+                min_interval += 15
+        elif 10 < x < 15:
+            if min_interval == 0:
+                ws.write(column_name + str(x), "11:00")
+                min_interval += 15
+            else:
+                ws.write("B" + str(x), "11:" + str(min_interval))
+                min_interval += 15
+        elif 14 < x < 19:
+            if min_interval == 0:
+                ws.write(column_name + str(x), "12:00")
+                min_interval += 15
+            else:
+                ws.write("B" + str(x), "12:" + str(min_interval))
+                min_interval += 15
+        elif 18 < x < 23:
+            if min_interval == 0:
+                ws.write(column_name + str(x), "1:00")
+                min_interval += 15
+            else:
+                ws.write("B" + str(x), "1:" + str(min_interval))
+                min_interval += 15
+        elif 22 < x < 27:
+            if min_interval == 0:
+                ws.write(column_name + str(x), "2:00")
+                min_interval += 15
+            else:
+                ws.write("B" + str(x), "2:" + str(min_interval))
+                min_interval += 15
+        elif 26 < x < 31:
+            if min_interval == 0:
+                ws.write(column_name + str(x), "3:00")
+                min_interval += 15
+            else:
+                ws.write("B" + str(x), "3:" + str(min_interval))
+                min_interval += 15
+        elif 30 < x < 35:
+            if min_interval == 0:
+                ws.write(column_name + str(x), "4:00")
+                min_interval += 15
+            else:
+                ws.write("B" + str(x), "4:" + str(min_interval))
+                min_interval += 15
+        elif 34 < x < 39:
+            if min_interval == 0:
+                ws.write(column_name + str(x), "5:00")
+                min_interval += 15
+            else:
+                ws.write("B" + str(x), "5:" + str(min_interval))
+                min_interval += 15
+        elif 38 < x < 43:
+            if min_interval == 0:
+                ws.write(column_name + str(x), "6:00")
+                min_interval += 15
+            else:
+                ws.write("B" + str(x), "6:" + str(min_interval))
+                min_interval += 15
+        elif 42 < x < 47:
+            if min_interval == 0:
+                ws.write(column_name + str(x), "7:00")
+                min_interval += 15
+            else:
+                ws.write("B" + str(x), "7:" + str(min_interval))
+                min_interval += 15
         else:
-            ws.write("B" + str(x), "10:" + str(n))
-            n += 15
+            if min_interval == 0:
+                ws.write(column_name + str(x), "8:00")
+                min_interval += 15
+            else:
+                ws.write("B" + str(x), "8:" + str(min_interval))
+                min_interval += 15
 
 # TODO: ADD CELL BORDER FORMATTING
 def create_cell_borders(wb, ws):
@@ -122,5 +194,4 @@ def create_week_day_format(wb, ws):
     for key in ecw.times_weekdays():
         ws.merge_range(key, ecw.times_weekdays().get(key), general_headers)
 
-    nine_am_interval_time(ws)
-    ten_am_interval_time(ws)
+    weekday_interval_times(ws)
