@@ -48,7 +48,8 @@ def study_rooms():
         "L": "Study Room 10",
         "M": "Study Room 11",
         "N": "Study Room 12",
-        "O": "Conference Room"
+        "O": "Conference Room",
+        "P": "SRS"
     }
     return dict_study_rooms
 
@@ -239,6 +240,9 @@ def create_study_rooms(wb, ws):
         elif study_rooms().get(key) == "Conference Room":
             ws.write(key + "1", study_rooms().get(key), conf_room_headers)
             ws.write(key + "2", "Max Capacity: 8", general_headers)
+        elif study_rooms().get(key) == "SRS":
+            ws.write(key + "1", study_rooms().get(key), general_headers)
+            ws.write(key + "2", "Max Capacity: 4", general_headers)
         else:
             ws.write(key + "2", "Max Capacity: 4", general_headers)
 
