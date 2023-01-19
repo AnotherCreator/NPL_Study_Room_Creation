@@ -20,6 +20,10 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+"""
+    THIS FILE WILL HANDLE CREATING THE ACTUAL WORKBOOK AND WORKSHEETS
+"""
+
 import logging
 import os.path
 from datetime import datetime
@@ -27,6 +31,8 @@ from os.path import exists
 
 import xlsxwriter  # https://xlsxwriter.readthedocs.io/index.html
 from openpyxl import *
+
+import xlsx_formatting
 
 def study_rooms():
     dict_study_rooms = {
@@ -141,20 +147,20 @@ def init_workbook(numeric_date, input_year):
             ws.set_column(1, 1, 5.5)  # Quarter intervals
 
             # General worksheet formatting
-            create_cell_borders(wb, ws)  # Add cell borders
+            xlsx_formatting.create_cell_borders(wb, ws)  # Add cell borders
             create_study_rooms(wb, ws)  # Add room columns and formatting
-            create_formulas(wb, ws)  # Add formulas
+            xlsx_formatting.create_formulas(wb, ws)  # Add formulas
 
             # Create y-axis time blocks
             if "Sun" in string_date:  # Create time format for Sundays
                 if "Jun" in string_date or "Jul" in string_date or "Aug" in string_date:
-                    create_summer_sun_format(wb, ws)
+                    xlsx_formatting.create_summer_sun_format(wb, ws)
                 else:
-                    create_sun_format(wb, ws)
+                    xlsx_formatting.create_sun_format(wb, ws)
             elif "Sat" in string_date:  # Create time format for Saturdays
-                create_sat_format(wb, ws)
+                xlsx_formatting.create_sat_format(wb, ws)
             else:
-                create_week_day_format(wb, ws)  # Create time format for weekdays
+                xlsx_formatting.create_week_day_format(wb, ws)  # Create time format for weekdays
 
         logging.info("Adding '[Month] Total' sheets")
         # Add monthly total sheets
@@ -237,81 +243,3 @@ def create_study_rooms(wb, ws):
             ws.write(key + "2", "Max Capacity: 4", general_headers)
 
     return
-
-
-# TODO: ADD CELL BORDER FORMATTING
-def create_cell_borders(wb, ws):
-    # Cell formatting properties
-    column_borders = wb.add_format({"bold": True})
-    column_borders.set_left(1)
-    column_borders.set_right(1)
-
-    return
-
-
-def create_formulas(wb, ws):
-    # Formula to count total study / conference room occupants in a day
-    ws.write("P3", "#users")
-    ws.write_formula("Q3", "=COUNTA(C3:O50)")
-
-    return
-
-
-def create_sat_format(wb, ws):
-    # Header formatting properties
-    general_headers = wb.add_format({"bold": True})
-    general_headers.set_font("Calibri")
-    general_headers.set_font_size(14)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
-
-    # Add hourly cells
-    for key in times_weekdays():
-        if "A38" in key or "A42" in key or "A46" in key or "A50" in key:
-            continue
-        ws.merge_range(key, times_weekdays().get(key), general_headers)
-
-    return
-
-
-def create_sun_format(wb, ws):
-    # Header formatting properties
-    general_headers = wb.add_format({"bold": True})
-    general_headers.set_font("Calibri")
-    general_headers.set_font_size(14)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
-
-    for key in times_sun_sept_to_may():
-        ws.merge_range(key, times_sun_sept_to_may().get(key), general_headers)
-
-    return
-
-
-def create_summer_sun_format(wb, ws):
-    # Header formatting properties
-    general_headers = wb.add_format({"bold": True})
-    general_headers.set_font("Calibri")
-    general_headers.set_font_size(14)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
-
-    for key in times_sun_june_to_aug():
-        ws.merge_range(key, times_sun_june_to_aug().get(key), general_headers)
-
-    return
-
-
-def create_week_day_format(wb, ws):
-    # Header formatting properties
-    general_headers = wb.add_format({"bold": True})
-    general_headers.set_font("Calibri")
-    general_headers.set_font_size(14)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
-
-    for key in times_weekdays():
-        ws.merge_range(key, times_weekdays().get(key), general_headers)
-
-    ws.write("B3", "9:00")
-    ws.write("B4", "9:15")
