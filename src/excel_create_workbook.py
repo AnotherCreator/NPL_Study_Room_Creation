@@ -220,9 +220,9 @@ def create_study_rooms(wb, ws):
     ws.freeze_panes("C3")  # This will freeze the study room and time information (Rows 1-2 / Columns A-B)
 
     # Adjust column widths
-    ws.set_column(2, 13, 17)  # Study room columns "C:N" with width of 17
+    ws.set_column(2, 13, 16)  # Study room columns "C:N" with width of 17
     ws.set_column(14, 14, 18)  # Conference room column with width of 18
-    ws.set_column(15, 16, 10)  # Color legend columns with width of 10
+    ws.set_column(15, 15, 16)  # SRS column with width of 17
 
     # Set row 1 column headers
     # Create "Time" header
