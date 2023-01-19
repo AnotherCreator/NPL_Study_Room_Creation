@@ -39,7 +39,7 @@ def create_cell_borders(wb, ws):
 def create_formulas(wb, ws):
     # Formula to count total study / conference room occupants in a day
     ws.write("P3", "#users")
-    ws.write_formula("Q3", "=COUNTA(C3:O50)")
+    ws.write_formula("Q3", "=COUNTA(C3:N50)+COUNTA(P3:P50)")
 
     return
 
@@ -99,6 +99,9 @@ def create_week_day_format(wb, ws):
 
     for key in ecw.times_weekdays():
         ws.merge_range(key, ecw.times_weekdays().get(key), general_headers)
+
+    # for x in range(3, 51):
+    #     ws.write("B" + )
 
     ws.write("B3", "9:00")
     ws.write("B4", "9:15")
