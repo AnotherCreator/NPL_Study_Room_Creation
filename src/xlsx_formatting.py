@@ -25,6 +25,7 @@
 """
 
 import excel_create_workbook as ecw
+import create_study_room_log as csrl
 
 
 def weekday_interval_times(wb, ws, interval_max=51):
@@ -277,3 +278,8 @@ def create_summer_sun_format(wb, ws):  # For months including June, July, August
 
     return
 
+
+def create_month_total_format(wb, ws):
+
+
+    return

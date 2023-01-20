@@ -34,7 +34,9 @@ from openpyxl import *
 
 import xlsx_formatting
 
-
+"""
+    DICTIONARIES CONTAINING CELL AND TIME / NAME VALUES
+"""
 def study_rooms():
     dict_study_rooms = {
         "C": "Study Room 1",
@@ -110,7 +112,9 @@ def times_sun_june_to_aug():
     }
     return dict_times_sun_june_to_aug
 
-
+"""
+    CREATING THE WORKBOOK BASED ON USER YEAR
+"""
 def init_workbook(numeric_date, input_year):
     # Check if file was already created
     logging.info("Attempting to create: Test " + str(input_year) + " Study Room Log.xlsx")
@@ -170,31 +174,30 @@ def init_workbook(numeric_date, input_year):
             wb.add_worksheet(month + " Totals")
 
             # TODO: ADD FORMATTING / FORMULAS FOR DAILY TOTAL USERS AND MONTH GRAND TOTAL
-            match month:
-                case "January":
-                    continue
-                case "February":
-                    continue
-                case "March":
-                    continue
-                case "April":
-                    continue
-                case "May":
-                    continue
-                case "June":
-                    continue
-                case "July":
-                    continue
-                case "August":
-                    continue
-                case "September":
-                    continue
-                case "October":
-                    continue
-                case "November":
-                    continue
-                case "December":
-                    continue
+            if month == "January":
+                continue
+            elif month == "February":
+                continue
+            elif month == "March":
+                continue
+            elif month == "April":
+                continue
+            elif month == "May":
+                continue
+            elif month == "June":
+                continue
+            elif month == "July":
+                continue
+            elif month == "August":
+                continue
+            elif month == "September":
+                continue
+            elif month == "October":
+                continue
+            elif month == "November":
+                continue
+            else:
+                continue
 
         logging.info("Adding '[Year] Total' sheet")
         # Add yearly total sheet at the end
@@ -206,7 +209,9 @@ def init_workbook(numeric_date, input_year):
         logging.info("Leaving function: create_excel_workbook()")
         return wb
 
-
+"""
+    FORMATTING EACH STUDY ROOM WORKSHEET IN THE WORKBOOK
+"""
 def create_study_rooms(wb, ws):
     # Header formatting properties
     general_headers = wb.add_format({"bold": True})
