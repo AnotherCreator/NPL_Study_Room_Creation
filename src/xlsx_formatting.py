@@ -279,7 +279,101 @@ def create_summer_sun_format(wb, ws):  # For months including June, July, August
     return
 
 
-def create_month_total_format(wb, ws):
+def create_month_total_format(wb, ws, numeric_date, month):
+    general_headers = wb.add_format({"bold": True})
+    general_headers.set_font("Calibri")
+    general_headers.set_font_size(14)
+    general_headers.set_align("vcenter")
+    general_headers.set_align("center")
 
+    # Adjust column width
+    ws.set_column(0, 0, 17.5)  # Study room columns "C:N" with width of 17
+    # Add header
+    ws.write(0, 0, "Worksheet Name", general_headers)
 
-    return
+    # TODO: ADD FORMATTING / FORMULAS FOR DAILY TOTAL USERS AND MONTH GRAND TOTAL
+    n = 1
+    if month == "January":
+        for date in numeric_date:
+            string_date = date.strftime("%a %b %d")
+            if "Jan" in string_date:
+                ws.write(n, 0, string_date)
+                n += 1
+        return
+    elif month == "February":
+        for date in numeric_date:
+            string_date = date.strftime("%a %b %d")
+            if "Feb" in string_date:
+                ws.write(n, 0, string_date)
+                n += 1
+        return
+    elif month == "March":
+        for date in numeric_date:
+            string_date = date.strftime("%a %b %d")
+            if "Mar" in string_date:
+                ws.write(n, 0, string_date)
+                n += 1
+        return
+    elif month == "April":
+        for date in numeric_date:
+            string_date = date.strftime("%a %b %d")
+            if "Apr" in string_date:
+                ws.write(n, 0, string_date)
+                n += 1
+        return
+    elif month == "May":
+        for date in numeric_date:
+            string_date = date.strftime("%a %b %d")
+            if "May" in string_date:
+                ws.write(n, 0, string_date)
+                n += 1
+        return
+    elif month == "June":
+        for date in numeric_date:
+            string_date = date.strftime("%a %b %d")
+            if "Jun" in string_date:
+                ws.write(n, 0, string_date)
+                n += 1
+        return
+    elif month == "July":
+        for date in numeric_date:
+            string_date = date.strftime("%a %b %d")
+            if "Jul" in string_date:
+                ws.write(n, 0, string_date)
+                n += 1
+        return
+    elif month == "August":
+        for date in numeric_date:
+            string_date = date.strftime("%a %b %d")
+            if "Aug" in string_date:
+                ws.write(n, 0, string_date)
+                n += 1
+        return
+    elif month == "September":
+        for date in numeric_date:
+            string_date = date.strftime("%a %b %d")
+            if "Sep" in string_date:
+                ws.write(n, 0, string_date)
+                n += 1
+        return
+    elif month == "October":
+        for date in numeric_date:
+            string_date = date.strftime("%a %b %d")
+            if "Oct" in string_date:
+                ws.write(n, 0, string_date)
+                n += 1
+        return
+    elif month == "November":
+        for date in numeric_date:
+            string_date = date.strftime("%a %b %d")
+            if "Nov" in string_date:
+                ws.write(n, 0, string_date)
+                n += 1
+        return
+    else:
+        for date in numeric_date:
+            string_date = date.strftime("%a %b %d")
+            if "Dec" in string_date:
+                ws.write(n, 0, string_date)
+                n += 1
+        return

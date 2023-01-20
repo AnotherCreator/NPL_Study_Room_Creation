@@ -171,33 +171,8 @@ def init_workbook(numeric_date, input_year):
         logging.info("Adding '[Month] Total' sheets")
         # Add monthly total sheets
         for month in months:
-            wb.add_worksheet(month + " Totals")
-
-            # TODO: ADD FORMATTING / FORMULAS FOR DAILY TOTAL USERS AND MONTH GRAND TOTAL
-            if month == "January":
-                continue
-            elif month == "February":
-                continue
-            elif month == "March":
-                continue
-            elif month == "April":
-                continue
-            elif month == "May":
-                continue
-            elif month == "June":
-                continue
-            elif month == "July":
-                continue
-            elif month == "August":
-                continue
-            elif month == "September":
-                continue
-            elif month == "October":
-                continue
-            elif month == "November":
-                continue
-            else:
-                continue
+            ws = wb.add_worksheet(month + " Totals")
+            xlsx_formatting.create_month_total_format(wb, ws, numeric_date, month)
 
         logging.info("Adding '[Year] Total' sheet")
         # Add yearly total sheet at the end
