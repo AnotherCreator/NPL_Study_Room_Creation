@@ -190,44 +190,44 @@ def create_study_rooms(wb, ws):
     # Header formatting properties
     general_headers = wb.add_format({"bold": True})
     general_headers.set_font("Calibri")
-    general_headers.set_font_size(14)
+    general_headers.set_font_size(12)
     general_headers.set_align("vcenter")
     general_headers.set_align("center")
 
     conf_room_headers = wb.add_format({"bold": True})
     conf_room_headers.set_font("Calibri")
     conf_room_headers.set_bg_color("00B0F0")
-    conf_room_headers.set_font_size(14)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
+    conf_room_headers.set_font_size(12)
+    conf_room_headers.set_align("vcenter")
+    conf_room_headers.set_align("center")
 
     capacity_two = wb.add_format({"bold": True})
     capacity_two.set_font("Calibri")
     capacity_two.set_bg_color("red")
-    capacity_two.set_font_size(14)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
+    capacity_two.set_font_size(12)
+    capacity_two.set_align("vcenter")
+    capacity_two.set_align("center")
 
     capacity_five = wb.add_format({"bold": True})
     capacity_five.set_font("Calibri")
     capacity_five.set_bg_color("yellow")
-    capacity_five.set_font_size(14)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
+    capacity_five.set_font_size(12)
+    capacity_five.set_align("vcenter")
+    capacity_five.set_align("center")
 
     capacity_six = wb.add_format({"bold": True})
     capacity_six.set_font("Calibri")
     capacity_six.set_bg_color("lime")
-    capacity_six.set_font_size(14)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
+    capacity_six.set_font_size(12)
+    capacity_six.set_align("vcenter")
+    capacity_six.set_align("center")
 
     # Freeze Panes
     ws.freeze_panes("C3")  # This will freeze the study room and time information (Rows 1-2 / Columns A-B)
 
     # Adjust column widths
     ws.set_column(2, 13, 16.5)  # Study room columns "C:N" with width of 16.5
-    ws.set_column(14, 14, 18)  # Conference room column with width of 18
+    ws.set_column(14, 14, 21)  # Conference room column with width of 18
     ws.set_column(15, 15, 16.5)  # SRS column with width of 16.5
 
     # Set row 1 column headers

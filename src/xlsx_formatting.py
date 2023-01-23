@@ -196,8 +196,8 @@ def sun_reg_interval_times(wb, ws, interval_max=35):
 
 def create_formulas(wb, ws):
     # Formula to count total study / conference room occupants in a day
-    ws.merge_range("A52:B52", "Users")
-    ws.write_formula("C52", "=COUNTA(C3:N50)+COUNTA(P3:P50)")
+    ws.write("A52", "Users")
+    ws.write_formula("B52", "=COUNTA(C3:N50)+COUNTA(P3:P50)")
 
     return
 
@@ -211,7 +211,7 @@ def create_week_day_format(wb, ws):
     general_headers.set_align("center")
 
     # Cell formatting properties
-    column_borders = wb.add_format({"bold": True})
+    column_borders = wb.add_format()
     column_borders.set_left(1)
     column_borders.set_right(1)
 
@@ -254,7 +254,7 @@ def create_sat_format(wb, ws):
     general_headers.set_align("center")
 
     # Cell formatting properties
-    column_borders = wb.add_format({"bold": True})
+    column_borders = wb.add_format()
     column_borders.set_left(1)
     column_borders.set_right(1)
 
@@ -300,7 +300,7 @@ def create_sun_format(wb, ws):  # For months excluding June, July, August
     general_headers.set_align("center")
 
     # Cell formatting properties
-    column_borders = wb.add_format({"bold": True})
+    column_borders = wb.add_format()
     column_borders.set_left(1)
     column_borders.set_right(1)
 
@@ -343,7 +343,7 @@ def create_summer_sun_format(wb, ws):  # For months including June, July, August
     general_headers.set_align("center")
 
     # Cell formatting properties
-    column_borders = wb.add_format({"bold": True})
+    column_borders = wb.add_format()
     column_borders.set_left(1)
     column_borders.set_right(1)
 
@@ -400,7 +400,7 @@ def create_month_total_format(wb, ws, numeric_date, month):
 
     # Add cell where users are stored
     ws.write(33, 0, "Cell Storing Users")
-    ws.write(33, 1, "C52")
+    ws.write(33, 1, "B52")
 
     # Final formula =INDIRECT("'"&A2&"'!"&$B$34)
     indirect_formula_part1 = '=INDIRECT'
