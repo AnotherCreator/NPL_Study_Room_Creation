@@ -415,6 +415,9 @@ def create_month_total_format(wb, ws, numeric_date, month):
                                 + indirect_formula_part4 + indirect_formula_part5
     indirect_formula_complete_half = indirect_formula_part6 + indirect_formula_part7 + indirect_formula_part8
 
+    #  Format each [Month] Total
+    #  Might be able to simplify the following code by removing the month checks since individual month
+    #  is already being passed in
     n = 1
     if month == "January":
         for date in numeric_date:
@@ -561,3 +564,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
 
                 n += 1
         return
+
+
+def create_year_total_format():
+    return
+
