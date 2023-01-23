@@ -215,12 +215,27 @@ def create_week_day_format(wb, ws):
     column_borders.set_left(1)
     column_borders.set_right(1)
 
-    # Column names that need cell borders
-    col_names = {"D", "F", "H", "J", "L", "N", "P"}
+    column_all_border = wb.add_format()
+    column_all_border.set_left(1)
+    column_all_border.set_right(1)
+    column_all_border.set_bottom(1)
 
+    # Column names that need cell column borders
+    col_names = {"D", "F", "H", "J", "L", "N", "P"}
     for col in col_names:
         for x in range(3, 51):
             ws.write(col + str(x), "", column_borders)
+
+    # Column names that need cell row borders
+    row_names = {"C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"}
+    for col in row_names:
+        n = 6
+        for x in range(3, 51):
+            if x == n:
+                ws.write(col + str(x), "", column_all_border)
+                n += 4
+            else:
+                continue
 
     for key in ecw.times_weekdays():
         ws.merge_range(key, ecw.times_weekdays().get(key), general_headers)
@@ -243,12 +258,27 @@ def create_sat_format(wb, ws):
     column_borders.set_left(1)
     column_borders.set_right(1)
 
+    column_all_border = wb.add_format()
+    column_all_border.set_left(1)
+    column_all_border.set_right(1)
+    column_all_border.set_bottom(1)
+
     # Column names that need cell borders
     col_names = {"D", "F", "H", "J", "L", "N", "P"}
-
     for col in col_names:
         for x in range(3, 35):
             ws.write(col + str(x), "", column_borders)
+
+    # Column names that need cell row borders
+    row_names = {"C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"}
+    for col in row_names:
+        n = 6
+        for x in range(3, 35):
+            if x == n:
+                ws.write(col + str(x), "", column_all_border)
+                n += 4
+            else:
+                continue
 
     # Add hourly cells
     for key in ecw.times_weekdays():
@@ -274,12 +304,27 @@ def create_sun_format(wb, ws):  # For months excluding June, July, August
     column_borders.set_left(1)
     column_borders.set_right(1)
 
+    column_all_border = wb.add_format()
+    column_all_border.set_left(1)
+    column_all_border.set_right(1)
+    column_all_border.set_bottom(1)
+
     # Column names that need cell borders
     col_names = {"D", "F", "H", "J", "L", "N", "P"}
-
     for col in col_names:
         for x in range(3, 35):
             ws.write(col + str(x), "", column_borders)
+
+    # Column names that need cell row borders
+    row_names = {"C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"}
+    for col in row_names:
+        n = 6
+        for x in range(3, 35):
+            if x == n:
+                ws.write(col + str(x), "", column_all_border)
+                n += 4
+            else:
+                continue
 
     for key in ecw.times_sun_sept_to_may():
         ws.merge_range(key, ecw.times_sun_sept_to_may().get(key), general_headers)
@@ -302,12 +347,27 @@ def create_summer_sun_format(wb, ws):  # For months including June, July, August
     column_borders.set_left(1)
     column_borders.set_right(1)
 
+    column_all_border = wb.add_format()
+    column_all_border.set_left(1)
+    column_all_border.set_right(1)
+    column_all_border.set_bottom(1)
+
     # Column names that need cell borders
     col_names = {"D", "F", "H", "J", "L", "N", "P"}
-
     for col in col_names:
         for x in range(3, 19):
             ws.write(col + str(x), "", column_borders)
+
+    # Column names that need cell row borders
+    row_names = {"C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"}
+    for col in row_names:
+        n = 6
+        for x in range(3, 19):
+            if x == n:
+                ws.write(col + str(x), "", column_all_border)
+                n += 4
+            else:
+                continue
 
     for key in ecw.times_sun_june_to_aug():
         ws.merge_range(key, ecw.times_sun_june_to_aug().get(key), general_headers)
@@ -364,8 +424,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
                 ws.write(n, 0, string_date)
 
                 # Add formula to get total
-                if n > 1:
-                    ws.write_formula("B" + str(n), indirect_formula_one_half + str(n) + indirect_formula_complete_half)
+                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
+                                 + indirect_formula_complete_half)
 
                 n += 1
         return
@@ -376,8 +436,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
                 ws.write(n, 0, string_date)
 
                 # Add formula to get total
-                if n > 1:
-                    ws.write_formula("B" + str(n), indirect_formula_one_half + str(n) + indirect_formula_complete_half)
+                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
+                                 + indirect_formula_complete_half)
 
                 n += 1
         return
@@ -388,8 +448,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
                 ws.write(n, 0, string_date)
 
                 # Add formula to get total
-                if n > 1:
-                    ws.write_formula("B" + str(n), indirect_formula_one_half + str(n) + indirect_formula_complete_half)
+                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
+                                 + indirect_formula_complete_half)
 
                 n += 1
         return
@@ -400,8 +460,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
                 ws.write(n, 0, string_date)
 
                 # Add formula to get total
-                if n > 1:
-                    ws.write_formula("B" + str(n), indirect_formula_one_half + str(n) + indirect_formula_complete_half)
+                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
+                                 + indirect_formula_complete_half)
 
                 n += 1
         return
@@ -412,8 +472,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
                 ws.write(n, 0, string_date)
 
                 # Add formula to get total
-                if n > 1:
-                    ws.write_formula("B" + str(n), indirect_formula_one_half + str(n) + indirect_formula_complete_half)
+                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
+                                 + indirect_formula_complete_half)
 
                 n += 1
         return
@@ -424,8 +484,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
                 ws.write(n, 0, string_date)
 
                 # Add formula to get total
-                if n > 1:
-                    ws.write_formula("B" + str(n), indirect_formula_one_half + str(n) + indirect_formula_complete_half)
+                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
+                                 + indirect_formula_complete_half)
 
                 n += 1
         return
@@ -436,8 +496,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
                 ws.write(n, 0, string_date)
 
                 # Add formula to get total
-                if n > 1:
-                    ws.write_formula("B" + str(n), indirect_formula_one_half + str(n) + indirect_formula_complete_half)
+                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
+                                 + indirect_formula_complete_half)
 
                 n += 1
         return
@@ -448,8 +508,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
                 ws.write(n, 0, string_date)
 
                 # Add formula to get total
-                if n > 1:
-                    ws.write_formula("B" + str(n), indirect_formula_one_half + str(n) + indirect_formula_complete_half)
+                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
+                                 + indirect_formula_complete_half)
 
                 n += 1
         return
@@ -460,8 +520,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
                 ws.write(n, 0, string_date)
 
                 # Add formula to get total
-                if n > 1:
-                    ws.write_formula("B" + str(n), indirect_formula_one_half + str(n) + indirect_formula_complete_half)
+                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
+                                 + indirect_formula_complete_half)
 
                 n += 1
         return
@@ -472,8 +532,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
                 ws.write(n, 0, string_date)
 
                 # Add formula to get total
-                if n > 1:
-                    ws.write_formula("B" + str(n), indirect_formula_one_half + str(n) + indirect_formula_complete_half)
+                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
+                                 + indirect_formula_complete_half)
 
                 n += 1
         return
@@ -484,8 +544,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
                 ws.write(n, 0, string_date)
 
                 # Add formula to get total
-                if n > 1:
-                    ws.write_formula("B" + str(n), indirect_formula_one_half + str(n) + indirect_formula_complete_half)
+                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
+                                 + indirect_formula_complete_half)
 
                 n += 1
         return
@@ -496,8 +556,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
                 ws.write(n, 0, string_date)
 
                 # Add formula to get total
-                if n > 1:
-                    ws.write_formula("B" + str(n), indirect_formula_one_half + str(n) + indirect_formula_complete_half)
+                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
+                                 + indirect_formula_complete_half)
 
                 n += 1
         return
