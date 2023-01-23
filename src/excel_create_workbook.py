@@ -175,7 +175,7 @@ def init_workbook(numeric_date, input_year):
 
         logging.info("Adding '[Year] Total' sheet")
         # Add yearly total sheet at the end
-        wb.add_worksheet(str(datetime.now().year + 1) + " Totals")
+        wb.add_worksheet(str(input_year) + " Totals")
         # TODO: ADD FORMATTING / FORMULAS FOR MONTHLY TOTAL USERS AND YEAR GRAND TOTAL
 
         wb.close()
