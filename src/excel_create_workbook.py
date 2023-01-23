@@ -153,7 +153,6 @@ def init_workbook(numeric_date, input_year):
             ws.set_column(1, 1, 5.5)  # Quarter intervals
 
             # General worksheet formatting
-            xlsx_formatting.create_cell_borders(wb, ws)  # Add cell borders
             create_study_rooms(wb, ws)  # Add room columns and formatting
             xlsx_formatting.create_formulas(wb, ws)  # Add formulas
 

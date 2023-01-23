@@ -30,6 +30,7 @@ import excel_create_workbook as ecw
 def weekday_interval_times(wb, ws, interval_max=51):
     min_interval = 0  # 15 min interval
     column_name = "B"  # Letter of column holding 15-min intervals
+    column_border_c = "C"
 
     interval_align_right = wb.add_format()
     interval_align_right.set_align("right")
@@ -193,16 +194,6 @@ def sun_reg_interval_times(wb, ws, interval_max=35):
                 min_interval += 15
 
 
-# TODO: ADD CELL BORDER FORMATTING
-def create_cell_borders(wb, ws):
-    # Cell formatting properties
-    column_borders = wb.add_format({"bold": True})
-    column_borders.set_left(1)
-    column_borders.set_right(1)
-
-    return
-
-
 def create_formulas(wb, ws):
     # Formula to count total study / conference room occupants in a day
     ws.merge_range("A52:B52", "Users")
@@ -219,6 +210,18 @@ def create_week_day_format(wb, ws):
     general_headers.set_align("vcenter")
     general_headers.set_align("center")
 
+    # Cell formatting properties
+    column_borders = wb.add_format({"bold": True})
+    column_borders.set_left(1)
+    column_borders.set_right(1)
+
+    # Column names that need cell borders
+    col_names = {"D", "F", "H", "J", "L", "N", "P"}
+
+    for col in col_names:
+        for x in range(3, 51):
+            ws.write(col + str(x), "", column_borders)
+
     for key in ecw.times_weekdays():
         ws.merge_range(key, ecw.times_weekdays().get(key), general_headers)
 
@@ -234,6 +237,18 @@ def create_sat_format(wb, ws):
     general_headers.set_font_size(14)
     general_headers.set_align("vcenter")
     general_headers.set_align("center")
+
+    # Cell formatting properties
+    column_borders = wb.add_format({"bold": True})
+    column_borders.set_left(1)
+    column_borders.set_right(1)
+
+    # Column names that need cell borders
+    col_names = {"D", "F", "H", "J", "L", "N", "P"}
+
+    for col in col_names:
+        for x in range(3, 35):
+            ws.write(col + str(x), "", column_borders)
 
     # Add hourly cells
     for key in ecw.times_weekdays():
@@ -254,6 +269,18 @@ def create_sun_format(wb, ws):  # For months excluding June, July, August
     general_headers.set_align("vcenter")
     general_headers.set_align("center")
 
+    # Cell formatting properties
+    column_borders = wb.add_format({"bold": True})
+    column_borders.set_left(1)
+    column_borders.set_right(1)
+
+    # Column names that need cell borders
+    col_names = {"D", "F", "H", "J", "L", "N", "P"}
+
+    for col in col_names:
+        for x in range(3, 35):
+            ws.write(col + str(x), "", column_borders)
+
     for key in ecw.times_sun_sept_to_may():
         ws.merge_range(key, ecw.times_sun_sept_to_may().get(key), general_headers)
 
@@ -269,6 +296,18 @@ def create_summer_sun_format(wb, ws):  # For months including June, July, August
     general_headers.set_font_size(14)
     general_headers.set_align("vcenter")
     general_headers.set_align("center")
+
+    # Cell formatting properties
+    column_borders = wb.add_format({"bold": True})
+    column_borders.set_left(1)
+    column_borders.set_right(1)
+
+    # Column names that need cell borders
+    col_names = {"D", "F", "H", "J", "L", "N", "P"}
+
+    for col in col_names:
+        for x in range(3, 19):
+            ws.write(col + str(x), "", column_borders)
 
     for key in ecw.times_sun_june_to_aug():
         ws.merge_range(key, ecw.times_sun_june_to_aug().get(key), general_headers)
