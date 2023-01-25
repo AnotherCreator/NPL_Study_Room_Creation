@@ -28,10 +28,10 @@ import logging
 import os.path
 from os.path import exists
 
-import xlsxwriter  # https://xlsxwriter.readthedocs.io/index.html
+import xlsxwriter  # Library link: https://xlsxwriter.readthedocs.io/index.html
+import xlsx_formatting  # Python src file
 from openpyxl import *
 
-import xlsx_formatting
 
 """
     DICTIONARIES CONTAINING CELL AND TIME / NAME VALUES
