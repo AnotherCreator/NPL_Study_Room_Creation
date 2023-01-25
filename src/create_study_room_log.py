@@ -22,6 +22,10 @@
 
 """
     MAIN DRIVER FILE FOR THE PROGRAM
+
+    Program desc:
+    The program will ask the user what year they would like to create the study room log for and create the workbook
+    based on the year provided (e.g. "2023")
 """
 
 import logging
