@@ -242,7 +242,7 @@ def create_study_rooms(wb, ws):
         elif study_rooms().get(key) == "Study Room 9":
             ws.write(key + "2", "Max Capacity: 6", capacity_six)
         elif study_rooms().get(key) == "Study Room 10" or study_rooms().get(key) == "Study Room 11":
-            ws.write(key + "2", "Max Capacity: 6", capacity_two)
+            ws.write(key + "2", "Max Capacity: 2", capacity_two)
         elif study_rooms().get(key) == "Conference Room":
             ws.write(key + "1", study_rooms().get(key), conf_room_headers)
             ws.write(key + "2", "Max Capacity: 8", general_headers)
