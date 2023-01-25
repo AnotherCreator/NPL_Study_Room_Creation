@@ -403,17 +403,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
     ws.write(33, 1, "B52")
 
     # Final formula =INDIRECT("'"&A2&"'!"&$B$34)
-    indirect_formula_part1 = '=INDIRECT'
-    indirect_formula_part2 = '("'
-    indirect_formula_part3 = "'"
-    indirect_formula_part4 = '"'
-    indirect_formula_part5 = '&A'
-    indirect_formula_part6 = '&"'
-    indirect_formula_part7 = "'!"
-    indirect_formula_part8 = '"&$B$34)'
-    indirect_formula_one_half = indirect_formula_part1 + indirect_formula_part2 + indirect_formula_part3 \
-                                + indirect_formula_part4 + indirect_formula_part5
-    indirect_formula_complete_half = indirect_formula_part6 + indirect_formula_part7 + indirect_formula_part8
+    indirect_formula_one_half = "=INDIRECT" + '("' + "'" + '"' + "&A"
+    indirect_formula_complete_half = '&"' + "'!" + '"&$B$34)'
 
     #  Format each [Month] Total
     #  Might be able to simplify the following code by removing the month checks since individual month
