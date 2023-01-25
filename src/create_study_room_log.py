@@ -53,6 +53,7 @@ def main():
     logging.basicConfig(level=logging.INFO)
     logging.info("Starting program")
 
+    # TODO: Add input validation check and loop until the user quits the program or enters a correct value
     # Get user input
     userinput_year = int(input("\nEnter the year (E.G. 2023) that you wish to create the Study Room Log for: \n"))
 
