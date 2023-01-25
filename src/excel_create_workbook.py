@@ -51,7 +51,7 @@ def study_rooms():
         "M": "Study Room 11",
         "N": "Study Room 12",
         "O": "Conference Room",
-        "P": "SRS"
+        "P": "SRS / GSR"
     }
     return dict_study_rooms
 
