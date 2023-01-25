@@ -37,7 +37,7 @@ import xlsx_formatting
     DICTIONARIES CONTAINING CELL AND TIME / NAME VALUES
 """
 def study_rooms():
-    dict_study_rooms = {
+    dict_study_rooms = {  # Column Letter: Name of room
         "C": "Study Room 1",
         "D": "Study Room 2",
         "E": "Study Room 3",
@@ -57,7 +57,7 @@ def study_rooms():
 
 
 def times_weekdays():
-    dict_times_weekdays = {
+    dict_times_weekdays = {  # Cell range: Hour
         "A3:A6": "9:00",
         "A7:A10": "10:00",
         "A11:A14": "11:00",
