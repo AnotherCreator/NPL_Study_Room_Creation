@@ -4,7 +4,7 @@
 This Python script will help **automate** the creation of the yearly study room log utilized by 
 Naperville's 95th Street Public Library Adult Services Department.  
 
-This will drastically reduce the manual time spent creating and formatting a **grand total of 381 Excel sheets**.  
+This will drastically reduce the manual time spent creating and formatting a **grand total of 378 Excel sheets**.  
 These sheets include:  
 - **Daily** study room activity 
 - **Monthly** statistics
