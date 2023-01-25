@@ -26,7 +26,6 @@
 
 import logging
 import os.path
-from datetime import datetime
 from os.path import exists
 
 import xlsxwriter  # https://xlsxwriter.readthedocs.io/index.html
@@ -234,7 +233,7 @@ def create_study_rooms(wb, ws):
     # Create "Time" header
     ws.merge_range("A1:B2", "Time", general_headers)
 
-    # Create headers using "study_rooms" global var
+    # Create headers using "study_rooms" function
     for key in study_rooms():
         ws.write(key + "1", study_rooms().get(key), general_headers)
         if study_rooms().get(key) == "Study Room 5":
@@ -244,10 +243,9 @@ def create_study_rooms(wb, ws):
         elif study_rooms().get(key) == "Study Room 10" or study_rooms().get(key) == "Study Room 11":
             ws.write(key + "2", "Max Capacity: 2", capacity_two)
         elif study_rooms().get(key) == "Conference Room":
-            ws.write(key + "1", study_rooms().get(key), conf_room_headers)
+            ws.write(key + "1", study_rooms().get(key), conf_room_headers)  # Overwriting general header formatting to include blue bg
             ws.write(key + "2", "Max Capacity: 8", general_headers)
         elif study_rooms().get(key) == "SRS":
-            ws.write(key + "1", study_rooms().get(key), general_headers)
             ws.write(key + "2", "Max Capacity: 4", general_headers)
         else:
             ws.write(key + "2", "Max Capacity: 4", general_headers)
