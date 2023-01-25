@@ -376,6 +376,17 @@ def create_summer_sun_format(wb, ws):  # For months including June, July, August
 
     return
 
+def month_total_indirect_formula(ws, n, string_date):
+    # Final formula =INDIRECT("'"&A[adjacent cell value being 'n']&"'!"&$B$34)
+    indirect_formula_one_half = "=INDIRECT" + '("' + "'" + '"' + "&A"
+    indirect_formula_complete_half = '&"' + "'!" + '"&$B$34)'
+
+    # Add worksheet name
+    ws.write(n, 0, string_date)
+
+    # Add formula to get total
+    ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
+                     + indirect_formula_complete_half)
 
 def create_month_total_format(wb, ws, numeric_date, month):
     general_headers = wb.add_format({"bold": True})
@@ -402,7 +413,7 @@ def create_month_total_format(wb, ws, numeric_date, month):
     ws.write(33, 0, "Cell Storing Users")
     ws.write(33, 1, "B52")
 
-    # Final formula =INDIRECT("'"&A2&"'!"&$B$34)
+    # Final formula =INDIRECT("'"&A[adjacent cell value being 'n']&"'!"&$B$34)
     indirect_formula_one_half = "=INDIRECT" + '("' + "'" + '"' + "&A"
     indirect_formula_complete_half = '&"' + "'!" + '"&$B$34)'
 
@@ -417,9 +428,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
                 # Add worksheet name
                 ws.write(n, 0, string_date)
 
-                # Add formula to get total
-                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
-                                 + indirect_formula_complete_half)
+                # Add indirect formula
+                month_total_indirect_formula(ws, n, string_date)
 
                 n += 1
         return
@@ -429,9 +439,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
             if "Feb" in string_date:
                 ws.write(n, 0, string_date)
 
-                # Add formula to get total
-                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
-                                 + indirect_formula_complete_half)
+                # Add indirect formula
+                month_total_indirect_formula(ws, n, string_date)
 
                 n += 1
         return
@@ -441,9 +450,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
             if "Mar" in string_date:
                 ws.write(n, 0, string_date)
 
-                # Add formula to get total
-                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
-                                 + indirect_formula_complete_half)
+                # Add indirect formula
+                month_total_indirect_formula(ws, n, string_date)
 
                 n += 1
         return
@@ -453,9 +461,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
             if "Apr" in string_date:
                 ws.write(n, 0, string_date)
 
-                # Add formula to get total
-                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
-                                 + indirect_formula_complete_half)
+                # Add indirect formula
+                month_total_indirect_formula(ws, n, string_date)
 
                 n += 1
         return
@@ -465,9 +472,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
             if "May" in string_date:
                 ws.write(n, 0, string_date)
 
-                # Add formula to get total
-                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
-                                 + indirect_formula_complete_half)
+                # Add indirect formula
+                month_total_indirect_formula(ws, n, string_date)
 
                 n += 1
         return
@@ -477,9 +483,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
             if "Jun" in string_date:
                 ws.write(n, 0, string_date)
 
-                # Add formula to get total
-                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
-                                 + indirect_formula_complete_half)
+                # Add indirect formula
+                month_total_indirect_formula(ws, n, string_date)
 
                 n += 1
         return
@@ -489,9 +494,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
             if "Jul" in string_date:
                 ws.write(n, 0, string_date)
 
-                # Add formula to get total
-                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
-                                 + indirect_formula_complete_half)
+                # Add indirect formula
+                month_total_indirect_formula(ws, n, string_date)
 
                 n += 1
         return
@@ -501,9 +505,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
             if "Aug" in string_date:
                 ws.write(n, 0, string_date)
 
-                # Add formula to get total
-                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
-                                 + indirect_formula_complete_half)
+                # Add indirect formula
+                month_total_indirect_formula(ws, n, string_date)
 
                 n += 1
         return
@@ -513,9 +516,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
             if "Sep" in string_date:
                 ws.write(n, 0, string_date)
 
-                # Add formula to get total
-                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
-                                 + indirect_formula_complete_half)
+                # Add indirect formula
+                month_total_indirect_formula(ws, n, string_date)
 
                 n += 1
         return
@@ -525,9 +527,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
             if "Oct" in string_date:
                 ws.write(n, 0, string_date)
 
-                # Add formula to get total
-                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
-                                 + indirect_formula_complete_half)
+                # Add indirect formula
+                month_total_indirect_formula(ws, n, string_date)
 
                 n += 1
         return
@@ -537,9 +538,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
             if "Nov" in string_date:
                 ws.write(n, 0, string_date)
 
-                # Add formula to get total
-                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
-                                 + indirect_formula_complete_half)
+                # Add indirect formula
+                month_total_indirect_formula(ws, n, string_date)
 
                 n += 1
         return
@@ -549,9 +549,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
             if "Dec" in string_date:
                 ws.write(n, 0, string_date)
 
-                # Add formula to get total
-                ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
-                                 + indirect_formula_complete_half)
+                # Add indirect formula
+                month_total_indirect_formula(ws, n, string_date)
 
                 n += 1
         return
