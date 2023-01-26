@@ -413,10 +413,6 @@ def create_month_total_format(wb, ws, numeric_date, month):
     ws.write(33, 0, "Cell Storing Users")
     ws.write(33, 1, "B52")
 
-    # Final formula =INDIRECT("'"&A[adjacent cell value being 'n']&"'!"&$B$34)
-    indirect_formula_one_half = "=INDIRECT" + '("' + "'" + '"' + "&A"
-    indirect_formula_complete_half = '&"' + "'!" + '"&$B$34)'
-
     #  Format each [Month] Total
     #  Might be able to simplify the following code by removing the month checks since individual month
     #  is already being passed in
