@@ -30,7 +30,6 @@ import excel_create_workbook as ecw
 def weekday_interval_times(wb, ws, interval_max=51):
     min_interval = 0  # 15 min interval
     column_name = "B"  # Letter of column holding 15-min intervals
-    column_border_c = "C"
 
     interval_align_right = wb.add_format()
     interval_align_right.set_align("right")
