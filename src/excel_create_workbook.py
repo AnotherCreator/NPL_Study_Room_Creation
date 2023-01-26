@@ -226,7 +226,7 @@ def create_study_rooms(wb, ws):
 
     # Adjust column widths
     ws.set_column(2, 13, 16.5)  # Study room columns "C:N" with width of 16.5
-    ws.set_column(14, 14, 21)  # Conference room column with width of 18
+    ws.set_column(14, 14, 21)  # Conference room column with width of 21
     ws.set_column(15, 15, 16.5)  # SRS column with width of 16.5
 
     # Set row 1 column headers
