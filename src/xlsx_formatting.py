@@ -195,7 +195,7 @@ def sun_reg_interval_times(wb, ws, interval_max=35):
 
 
 def create_formulas(wb, ws):
-    # Formula to count total study / conference room occupants in a day
+    # Formula to count total study room usage
     ws.write("A52", "Users")
     ws.write_formula("B52", "=COUNTA(C3:N50)")
 
