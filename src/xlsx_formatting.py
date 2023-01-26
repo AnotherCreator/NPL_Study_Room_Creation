@@ -396,8 +396,8 @@ def create_month_total_format(wb, ws, numeric_date, month):
     general_headers.set_align("center")
 
     # Adjust column width
-    ws.set_column(0, 0, 17.5)  # Study room columns "A" with width of 17
-    ws.set_column(0, 1, 17.5)  # Study room columns "B" with width of 17
+    ws.set_column(0, 0, 17.5)  # Study room columns "A" with width of 17.5
+    ws.set_column(0, 1, 17.5)  # Study room columns "B" with width of 17.5
 
     # Add header
     ws.write(0, 0, "Worksheet Name", general_headers)
