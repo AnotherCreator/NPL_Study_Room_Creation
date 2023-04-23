@@ -375,6 +375,7 @@ def create_summer_sun_format(wb, ws):  # For months including June, July, August
 
     return
 
+
 def month_total_indirect_formula(ws, n, string_date):
     # Final formula =INDIRECT("'"&A[adjacent cell value being 'n']&"'!"&$B$34)
     indirect_formula_one_half = "=INDIRECT" + '("' + "'" + '"' + "&A"
@@ -386,6 +387,7 @@ def month_total_indirect_formula(ws, n, string_date):
     # Add formula to get total
     ws.write_formula("B" + str(n + 1), indirect_formula_one_half + str(n + 1)
                      + indirect_formula_complete_half)
+
 
 def create_month_total_format(wb, ws, numeric_date, month):
     general_headers = wb.add_format({"bold": True})
@@ -553,4 +555,3 @@ def create_month_total_format(wb, ws, numeric_date, month):
 
 def create_year_total_format():
     return
-

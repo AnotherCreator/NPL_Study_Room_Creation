@@ -32,10 +32,11 @@ import xlsxwriter  # Library link: https://xlsxwriter.readthedocs.io/index.html
 import xlsx_formatting  # Python src file
 from openpyxl import *
 
-
 """
     DICTIONARIES CONTAINING CELL AND TIME / NAME VALUES
 """
+
+
 def study_rooms():
     dict_study_rooms = {  # Column Letter: Name of room
         "C": "Study Room 1",
@@ -111,9 +112,12 @@ def times_sun_june_to_aug():
     }
     return dict_times_sun_june_to_aug
 
+
 """
     CREATING THE WORKBOOK BASED ON USER YEAR
 """
+
+
 def init_workbook(numeric_date, input_year):
     # Check if file was already created
     logging.info("Attempting to create: " + str(input_year) + " Study Room Log.xlsm")
@@ -187,9 +191,12 @@ def init_workbook(numeric_date, input_year):
         logging.info("Leaving function: create_excel_workbook()")
         return wb
 
+
 """
     FORMATTING EACH STUDY ROOM WORKSHEET IN THE WORKBOOK
 """
+
+
 def create_study_rooms(wb, ws):
     # Header formatting properties
     general_headers = wb.add_format({"bold": True})
@@ -248,7 +255,8 @@ def create_study_rooms(wb, ws):
         elif study_rooms().get(key) == "Study Room 10" or study_rooms().get(key) == "Study Room 11":
             ws.write(key + "2", "Max Capacity: 2", capacity_two)
         elif study_rooms().get(key) == "Conference Room":
-            ws.write(key + "1", study_rooms().get(key), conf_room_headers)  # Overwriting general header formatting to include blue bg
+            ws.write(key + "1", study_rooms().get(key),
+                     conf_room_headers)  # Overwriting general header formatting to include blue bg
             ws.write(key + "2", "Max Capacity: 8", general_headers)
         elif study_rooms().get(key) == "SRS":
             ws.write(key + "2", "Max Capacity: 4", general_headers)
