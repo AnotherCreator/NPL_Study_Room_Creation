@@ -116,13 +116,13 @@ def times_sun_june_to_aug():
 """
 def init_workbook(numeric_date, input_year):
     # Check if file was already created
-    logging.info("Attempting to create: " + str(input_year) + " Study Room Log.xlsx")
-    if exists("Test " + str(input_year) + " Study Room Log.xlsx"):
+    logging.info("Attempting to create: " + str(input_year) + " Study Room Log.xlsm")
+    if exists("Test " + str(input_year) + " Study Room Log.xlsm"):
         logging.info("Existing file found, file not created")
         logging.info("Attempting to fetch file: "
-                     + os.path.basename(str(input_year) + " Study Room Log.xlsx"))
+                     + os.path.basename(str(input_year) + " Study Room Log.xlsm"))
 
-        existing_file = os.path.basename(str(input_year) + " Study Room Log.xlsx")
+        existing_file = os.path.basename(str(input_year) + " Study Room Log.xlsm")
         wb = load_workbook(existing_file)
 
         logging.info("File successfully fetched")
@@ -130,10 +130,14 @@ def init_workbook(numeric_date, input_year):
         return wb
     # Create Excel file if it does not exist
     else:
-        logging.info(str(input_year) + " Study Room Log.xlsx NOT FOUND")
-        logging.info("Creating: " + str(input_year) + " Study Room Log.xlsx")
+        logging.info(str(input_year) + " Study Room Log.xlsm NOT FOUND")
+        logging.info("Creating: " + str(input_year) + " Study Room Log.xlsm")
 
-        wb = xlsxwriter.Workbook(str(input_year) + " Study Room Log.xlsx")
+        wb = xlsxwriter.Workbook(str(input_year) + " Study Room Log.xlsm")
+        wb.add_vba_project('vbaProject.bin')  # Enable macro file
+        master_sheet = wb.add_worksheet("Master Worksheet")
+        master_sheet.set_first_sheet()
+        master_sheet.activate()
 
         # List of months
         months = ["January", "February", "March", "April",
@@ -146,12 +150,13 @@ def init_workbook(numeric_date, input_year):
         for date in numeric_date:
             string_date = date.strftime("%a %b %d")
             ws = wb.add_worksheet(string_date)  # Add 'DayName Month DayNumber' sheets
-
             # Adjust column widths
             ws.set_column(0, 0, 7.5)  # Hourly time width
             ws.set_column(1, 1, 5.5)  # Quarter intervals
 
             # General worksheet formatting
+            ws.set_default_row(hide_unused_rows=True)
+            ws.hide()  # Hide worksheet by default -- access by master link
             create_study_rooms(wb, ws)  # Add room columns and formatting
             xlsx_formatting.create_formulas(wb, ws)  # Add formulas
 
@@ -249,5 +254,4 @@ def create_study_rooms(wb, ws):
             ws.write(key + "2", "Max Capacity: 4", general_headers)
         else:
             ws.write(key + "2", "Max Capacity: 4", general_headers)
-
     return
