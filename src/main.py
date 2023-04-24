@@ -32,7 +32,6 @@ import logging
 
 from datetime import datetime
 from UliEngineering.Utils.Date import all_dates_in_year
-
 import excel_create_workbook as create_workbook
 
 

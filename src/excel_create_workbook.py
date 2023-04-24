@@ -138,10 +138,11 @@ def init_workbook(numeric_date, input_year):
         logging.info("Creating: " + str(input_year) + " Study Room Log.xlsm")
 
         wb = xlsxwriter.Workbook(str(input_year) + " Study Room Log.xlsm")
-        wb.add_vba_project('vbaProject.bin')  # Enable macro file
+        wb.add_vba_project('vbaProject.bin')  # Add .bin file with pre-loaded macros | enables .xlsm creation
+
         master_sheet = wb.add_worksheet("Master Worksheet")
-        master_sheet.set_first_sheet()
-        master_sheet.activate()
+        master_sheet.set_first_sheet()  # First visible sheet upon opening file
+        master_sheet.activate()  # First visible sheet upon opening file
 
         # List of months
         months = ["January", "February", "March", "April",
