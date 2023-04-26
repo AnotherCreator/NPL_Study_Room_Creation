@@ -56,7 +56,7 @@ def main():
     # Get user input
     userinput_year = int(input("\nEnter the year (E.G. 2023) that you wish to create the Study Room Log for: \n"))
 
-    # Attempt to get a list of all days of 'userinput_year'
+    # Attempt to get a list of all days using 'userinput_year'
     logging.info("Entering file 'excel_create_workbook.py'"
                  "and attempting to call function 'get_days_of_current_year'")
     list_of_dates = get_days_of_current_year(userinput_year)

@@ -138,7 +138,7 @@ def init_workbook(numeric_date, input_year):
         logging.info("Creating: " + str(input_year) + " Study Room Log.xlsm")
 
         wb = xlsxwriter.Workbook(str(input_year) + " Study Room Log.xlsm")
-        wb.add_vba_project('vbaProject.bin')  # Add .bin file with pre-loaded macros | enables .xlsm creation
+        wb.add_vba_project('vbaProject.bin')  # Add .bin file with preloaded macros | enables .xlsm creation
 
         master_sheet = wb.add_worksheet("Master Worksheet")
         master_sheet.set_first_sheet()  # First visible sheet upon opening file

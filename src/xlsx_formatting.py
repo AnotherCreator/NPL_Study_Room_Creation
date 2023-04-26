@@ -28,100 +28,27 @@ import excel_create_workbook as ecw
 
 
 def weekday_interval_times(wb, ws, interval_max=51):
-    min_interval = 0  # 15 min interval
-    column_name = "B"  # Letter of column holding 15-min intervals
+    times = ["9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00"]
+    times_counter = 0
 
+    column_name = "B"  # Letter of column holding 15-min intervals
     interval_align_right = wb.add_format()
     interval_align_right.set_align("right")
 
-    for x in range(3, interval_max):
-        if min_interval == 60:  # Reset interval counter before each hour
+    for i in range(3, interval_max, 4):
+        min_interval = 0  # 15 min interval
+
+        if min_interval == 45:
             min_interval = 0
 
-        if x < 7:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "9:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "9:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 6 < x < 11:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "10:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "10:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 10 < x < 15:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "11:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "11:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 14 < x < 19:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "12:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "12:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 18 < x < 23:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "1:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "1:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 22 < x < 27:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "2:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "2:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 26 < x < 31:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "3:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "3:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 30 < x < 35:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "4:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "4:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 34 < x < 39:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "5:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "5:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 38 < x < 43:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "6:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "6:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 42 < x < 47:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "7:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "7:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        else:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "8:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "8:" + str(min_interval), interval_align_right)
-                min_interval += 15
+        ws.write(column_name + str(i), times[times_counter], interval_align_right)
+        min_interval += 15
+
+        for num in range(i + 1, i + 4):
+            ws.write("B" + str(num), times[times_counter][:-2] + str(min_interval), interval_align_right)
+            min_interval += 15
+
+        times_counter += 1
 
 
 def sun_reg_interval_times(wb, ws, interval_max=35):
