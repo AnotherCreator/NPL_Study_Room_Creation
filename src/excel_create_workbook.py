@@ -140,7 +140,17 @@ def init_workbook(numeric_date, input_year):
         wb = xlsxwriter.Workbook(str(input_year) + " Study Room Log.xlsm")
         wb.add_vba_project('vbaProject.bin')  # Add .bin file with preloaded macros | enables .xlsm creation
 
+        # =HYPERLINK("#'Sat Jan 07'!C3", "Sat Jan 07")
+
+        # worksheet.write_url('A2',  'internal:Sheet2!A1:B2')
         master_sheet = wb.add_worksheet("Master Worksheet")
+
+        # Url Test Block
+        # TODO: Delete this block after automating url writing (148 - 152)
+        master_sheet.write("A1", "January")
+        master_sheet.write_url("A2", "internal:\'Sun Jan 01\'!C3", string='Sun Jan 01')
+        master_sheet.write_url("A2", "internal:\'Sun Jan 02\'!C3", string='Sun Jan 02')
+
         master_sheet.set_first_sheet()  # First visible sheet upon opening file
         master_sheet.activate()  # First visible sheet upon opening file
 
