@@ -26,6 +26,9 @@
 
 import excel_create_workbook as ecw
 
+COL_NAMES = {"D", "F", "H", "J", "L", "N", "P"}
+ROW_NAMES = {"C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"}
+
 
 def weekday_interval_times(wb, ws, interval_max=51):
     times = ["9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00"]
@@ -147,14 +150,12 @@ def create_week_day_format(wb, ws):
     column_all_border.set_bottom(1)
 
     # Column names that need cell column borders
-    col_names = {"D", "F", "H", "J", "L", "N", "P"}
-    for col in col_names:
+    for col in COL_NAMES:
         for x in range(3, 51):
             ws.write(col + str(x), "", column_borders)
 
     # Column names that need cell row borders
-    row_names = {"C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"}
-    for col in row_names:
+    for col in ROW_NAMES:
         n = 6
         for x in range(3, 51):
             if x == n:
@@ -190,14 +191,12 @@ def create_sat_format(wb, ws):
     column_all_border.set_bottom(1)
 
     # Column names that need cell borders
-    col_names = {"D", "F", "H", "J", "L", "N", "P"}
-    for col in col_names:
+    for col in COL_NAMES:
         for x in range(3, 35):
             ws.write(col + str(x), "", column_borders)
 
     # Column names that need cell row borders
-    row_names = {"C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"}
-    for col in row_names:
+    for col in ROW_NAMES:
         n = 6
         for x in range(3, 35):
             if x == n:
@@ -236,14 +235,12 @@ def create_sun_format(wb, ws):  # For months excluding June, July, August
     column_all_border.set_bottom(1)
 
     # Column names that need cell borders
-    col_names = {"D", "F", "H", "J", "L", "N", "P"}
-    for col in col_names:
+    for col in COL_NAMES:
         for x in range(3, 35):
             ws.write(col + str(x), "", column_borders)
 
     # Column names that need cell row borders
-    row_names = {"C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"}
-    for col in row_names:
+    for col in ROW_NAMES:
         n = 6
         for x in range(3, 35):
             if x == n:
@@ -279,14 +276,12 @@ def create_summer_sun_format(wb, ws):  # For months including June, July, August
     column_all_border.set_bottom(1)
 
     # Column names that need cell borders
-    col_names = {"D", "F", "H", "J", "L", "N", "P"}
-    for col in col_names:
+    for col in COL_NAMES:
         for x in range(3, 19):
             ws.write(col + str(x), "", column_borders)
 
     # Column names that need cell row borders
-    row_names = {"C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"}
-    for col in row_names:
+    for col in ROW_NAMES:
         n = 6
         for x in range(3, 19):
             if x == n:
