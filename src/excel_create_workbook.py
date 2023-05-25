@@ -32,6 +32,10 @@ import xlsxwriter  # Library link: https://xlsxwriter.readthedocs.io/index.html
 import xlsx_formatting  # Python src file
 from openpyxl import *
 
+MONTHS = ["January", "February", "March", "April",
+                  "May", "June", "July", "August",
+                  "September", "October", "November", "December"]
+
 """
     DICTIONARIES CONTAINING CELL AND TIME / NAME VALUES
 """
@@ -52,7 +56,9 @@ def study_rooms():
         "M": "Study Room 11",
         "N": "Study Room 12",
         "O": "Conference Room",
-        "P": "SRS / GSR"
+        "P": "SRS",
+        "Q": "GSR"
+        # Add more room columns here
     }
     return dict_study_rooms
 
@@ -120,6 +126,7 @@ def times_sun_june_to_aug():
 
 def init_workbook(numeric_date, input_year):
     # Check if file was already created
+    """ This section is for the macro-enabled master sheet style workbook
     logging.info("Attempting to create: " + str(input_year) + " Study Room Log.xlsm")
     if exists("Test " + str(input_year) + " Study Room Log.xlsm"):
         logging.info("Existing file found, file not created")
@@ -136,28 +143,38 @@ def init_workbook(numeric_date, input_year):
     else:
         logging.info(str(input_year) + " Study Room Log.xlsm NOT FOUND")
         logging.info("Creating: " + str(input_year) + " Study Room Log.xlsm")
-
         wb = xlsxwriter.Workbook(str(input_year) + " Study Room Log.xlsm")
+
         wb.add_vba_project('vbaProject.bin')  # Add .bin file with preloaded macros | enables .xlsm creation
-
-        # =HYPERLINK("#'Sat Jan 07'!C3", "Sat Jan 07")
-
-        # worksheet.write_url('A2',  'internal:Sheet2!A1:B2')
         master_sheet = wb.add_worksheet("Master Worksheet")
 
         # Url Test Block
         # TODO: Delete this block after automating url writing (148 - 152)
         master_sheet.write("A1", "January")
-        master_sheet.write_url("A2", "internal:\'Sun Jan 01\'!C3", string='Sun Jan 01')
-        master_sheet.write_url("A2", "internal:\'Sun Jan 02\'!C3", string='Sun Jan 02')
-
+        master_sheet.write_url("A2", "internal:'Sun Jan 01'!C3", string='Sun Jan 01')
+        master_sheet.write_url("A3", "internal:'Mon Jan 02'!C3", string='Mon Jan 02')
+        master_sheet.write_url("A4", "internal:'Tue Jan 03'!C3", string='Tue Jan 03')
         master_sheet.set_first_sheet()  # First visible sheet upon opening file
         master_sheet.activate()  # First visible sheet upon opening file
+    """
 
-        # List of months
-        months = ["January", "February", "March", "April",
-                  "May", "June", "July", "August",
-                  "September", "October", "November", "December"]
+    logging.info("Attempting to create: " + str(input_year) + " Study Room Log.xlsx")
+    if exists("Test " + str(input_year) + " Study Room Log.xlsx"):
+        logging.info("Existing file found, file not created")
+        logging.info("Attempting to fetch file: "
+                     + os.path.basename(str(input_year) + " Study Room Log.xlsx"))
+
+        existing_file = os.path.basename(str(input_year) + " Study Room Log.xlsx")
+        wb = load_workbook(existing_file)
+
+        logging.info("File successfully fetched")
+        logging.info("Leaving function: create_excel_workbook()")
+        return wb
+    # Create Excel file if it does not exist
+    else:
+        logging.info(str(input_year) + " Study Room Log.xlsx NOT FOUND")
+        logging.info("Creating: " + str(input_year) + " Study Room Log.xlsx")
+        wb = xlsxwriter.Workbook(str(input_year) + " Study Room Log.xlsx")
 
         logging.info("Adding '[DayName] [Month] [DayNumber]' sheets")
         # Add 'DayName Month DayNumber' sheets
@@ -170,8 +187,10 @@ def init_workbook(numeric_date, input_year):
             ws.set_column(1, 1, 5.5)  # Quarter intervals
 
             # General worksheet formatting
+            """  This section is related to the master sheet style workbook
+            # ws.hide()  # Hide worksheet by default -- access by master link
+            """
             ws.set_default_row(hide_unused_rows=True)
-            ws.hide()  # Hide worksheet by default -- access by master link
             create_study_rooms(wb, ws)  # Add room columns and formatting
             xlsx_formatting.create_formulas(wb, ws)  # Add formulas
 
@@ -188,7 +207,7 @@ def init_workbook(numeric_date, input_year):
 
         logging.info("Adding '[Month] Total' sheets")
         # Add monthly total sheets
-        for month in months:
+        for month in MONTHS:
             ws = wb.add_worksheet(month + " Totals")
             xlsx_formatting.create_month_total_format(wb, ws, numeric_date, month)
 
@@ -250,7 +269,7 @@ def create_study_rooms(wb, ws):
     # Adjust column widths
     ws.set_column(2, 13, 16.5)  # Study room columns "C:N" with width of 16.5
     ws.set_column(14, 14, 21)  # Conference room column with width of 21
-    ws.set_column(15, 15, 16.5)  # SRS column with width of 16.5
+    ws.set_column(15, 16, 16.5)  # SRS / GSR column with width of 16.5
 
     # Set row 1 column headers
     # Create "Time" header
@@ -269,8 +288,6 @@ def create_study_rooms(wb, ws):
             ws.write(key + "1", study_rooms().get(key),
                      conf_room_headers)  # Overwriting general header formatting to include blue bg
             ws.write(key + "2", "Max Capacity: 8", general_headers)
-        elif study_rooms().get(key) == "SRS":
-            ws.write(key + "2", "Max Capacity: 4", general_headers)
         else:
             ws.write(key + "2", "Max Capacity: 4", general_headers)
     return
