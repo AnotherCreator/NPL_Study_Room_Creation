@@ -26,8 +26,8 @@
 
 import excel_create_workbook as ecw
 
-COL_NAMES = {"D", "F", "H", "J", "L", "N", "P"}
-ROW_NAMES = {"C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"}
+COL_NAMES = {"D", "F", "H", "J", "L", "N", "P", "Q"}
+ROW_NAMES = {"C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q"}
 
 
 def weekday_interval_times(wb, ws, interval_max=51):
