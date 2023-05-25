@@ -1,7 +1,7 @@
 # An Automated Excel Workbook Creator
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-This Python script will help **automate** the creation of the yearly study room log utilized by 
+This Python program will help **automate** the creation of the yearly study room log utilized by 
 Naperville's 95th Street Public Library Adult Services Department.  
 
 This will drastically reduce the manual time spent creating and formatting a **grand total of 378 Excel sheets**.  
