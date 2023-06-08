@@ -10,7 +10,7 @@ These sheets include:
 - **Monthly** statistics
 - **Year** totals
 
-This script will also help "standardize" the formatting to further aid the multiple usages of formulas found in the workbook.
+This program will also help "standardize" the formatting to further aid the multiple usages of formulas found in the workbook.
 
 # Table of contents
 - [Features](#features)
