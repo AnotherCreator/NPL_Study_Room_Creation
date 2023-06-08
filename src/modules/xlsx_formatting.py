@@ -23,7 +23,7 @@
 """
     THIS FILE WILL CONTAIN MOST OF THE FORMATTING FUNCTIONS
 """
-from src.my_constants import \
+from src.constants import \
     COL_NAMES, ROW_NAMES, WEEKDAY_HOURS, SUN_SCHOOL_HOURS, SUN_SUMMER_HOURS
 
 

@@ -23,7 +23,7 @@
 """
     THIS FILE WILL HANDLE CREATING THE ACTUAL WORKBOOK AND WORKSHEETS
 """
-from src.my_constants import \
+from src.constants import \
     LOGGER, MONTHS, ROOM_LABELS
 import src.modules.xlsx_formatting as xlsx_formatting
 

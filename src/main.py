@@ -27,7 +27,7 @@
     The program will ask the user what year they would like to create the study room log for and create the workbook
     based on the year provided (e.g. "2023")
 """
-from my_constants import LOGGER
+from constants import LOGGER
 
 from datetime import datetime
 from UliEngineering.Utils.Date import all_dates_in_year
