@@ -24,99 +24,14 @@
     THIS FILE WILL HANDLE CREATING THE ACTUAL WORKBOOK AND WORKSHEETS
 """
 
-import logging
+import src.my_constants as my_constants
 import os.path
 from os.path import exists
 
 import xlsxwriter  # Library link: https://xlsxwriter.readthedocs.io/index.html
-import xlsx_formatting  # Python src file
+import src.modules.xlsx_formatting as xlsx_formatting  # Python src file
 from openpyxl import *
 
-MONTHS = ["January", "February", "March", "April",
-                  "May", "June", "July", "August",
-                  "September", "October", "November", "December"]
-
-"""
-    DICTIONARIES CONTAINING CELL AND TIME / NAME VALUES
-"""
-
-
-def study_rooms():
-    dict_study_rooms = {  # Column Letter: Name of room
-        "C": "Study Room 1",
-        "D": "Study Room 2",
-        "E": "Study Room 3",
-        "F": "Study Room 4",
-        "G": "Study Room 5",
-        "H": "Study Room 6",
-        "I": "Study Room 7",
-        "J": "Study Room 8",
-        "K": "Study Room 9",
-        "L": "Study Room 10",
-        "M": "Study Room 11",
-        "N": "Study Room 12",
-        "O": "Conference Room",
-        "P": "SRS",
-        "Q": "GSR"
-        # Add more room columns here
-    }
-    return dict_study_rooms
-
-
-def times_weekdays():
-    dict_times_weekdays = {  # Cell range: Hour
-        "A3:A6": "9:00",
-        "A7:A10": "10:00",
-        "A11:A14": "11:00",
-        "A15:A18": "12:00",
-        "A19:A22": "1:00",
-        "A23:A26": "2:00",
-        "A27:A30": "3:00",
-        "A31:A34": "4:00",
-        "A35:A38": "5:00",
-        "A39:A42": "6:00",
-        "A43:A46": "7:00",
-        "A47:A50": "8:00"
-    }
-    return dict_times_weekdays
-
-
-def times_sat():
-    dict_times_sat = {
-        "A3:A6": "9:00",
-        "A7:A10": "10:00",
-        "A11:A14": "11:00",
-        "A15:A18": "12:00",
-        "A19:A22": "1:00",
-        "A23:A26": "2:00",
-        "A27:A30": "3:00",
-        "A31:A34": "4:00"
-    }
-    return dict_times_sat
-
-
-def times_sun_sept_to_may():
-    dict_times_sun_sept_to_may = {
-        "A3:A6": "1:00",
-        "A7:A10": "2:00",
-        "A11:A14": "3:00",
-        "A15:A18": "4:00",
-        "A19:A22": "5:00",
-        "A23:A26": "6:00",
-        "A27:A30": "7:00",
-        "A31:A34": "8:00"
-    }
-    return dict_times_sun_sept_to_may
-
-
-def times_sun_june_to_aug():
-    dict_times_sun_june_to_aug = {
-        "A3:A6": "1:00",
-        "A7:A10": "2:00",
-        "A11:A14": "3:00",
-        "A15:A18": "4:00"
-    }
-    return dict_times_sun_june_to_aug
 
 
 """
@@ -158,25 +73,25 @@ def init_workbook(numeric_date, input_year):
         master_sheet.activate()  # First visible sheet upon opening file
     """
 
-    logging.info("Attempting to create: " + str(input_year) + " Study Room Log.xlsx")
+    my_constants.LOGGER.info("Attempting to create: " + str(input_year) + " Study Room Log.xlsx")
     if exists("Test " + str(input_year) + " Study Room Log.xlsx"):
-        logging.info("Existing file found, file not created")
-        logging.info("Attempting to fetch file: "
+        my_constants.LOGGER.info("Existing file found, file not created")
+        my_constants.LOGGER.info("Attempting to fetch file: "
                      + os.path.basename(str(input_year) + " Study Room Log.xlsx"))
 
         existing_file = os.path.basename(str(input_year) + " Study Room Log.xlsx")
         wb = load_workbook(existing_file)
 
-        logging.info("File successfully fetched")
-        logging.info("Leaving function: create_excel_workbook()")
+        my_constants.LOGGER.info("File successfully fetched")
+        my_constants.LOGGER.info("Leaving function: create_excel_workbook()")
         return wb
     # Create Excel file if it does not exist
     else:
-        logging.info(str(input_year) + " Study Room Log.xlsx NOT FOUND")
-        logging.info("Creating: " + str(input_year) + " Study Room Log.xlsx")
+        my_constants.LOGGER.info(str(input_year) + " Study Room Log.xlsx NOT FOUND")
+        my_constants.LOGGER.info("Creating: " + str(input_year) + " Study Room Log.xlsx")
         wb = xlsxwriter.Workbook(str(input_year) + " Study Room Log.xlsx")
 
-        logging.info("Adding '[DayName] [Month] [DayNumber]' sheets")
+        my_constants.LOGGER.info("Adding '[DayName] [Month] [DayNumber]' sheets")
         # Add 'DayName Month DayNumber' sheets
         # This will iterate through all known dates of the year
         for date in numeric_date:
@@ -205,20 +120,20 @@ def init_workbook(numeric_date, input_year):
             else:
                 xlsx_formatting.create_week_day_format(wb, ws)  # Create time format for weekdays
 
-        logging.info("Adding '[Month] Total' sheets")
+        my_constants.LOGGER.info("Adding '[Month] Total' sheets")
         # Add monthly total sheets
-        for month in MONTHS:
+        for month in my_constants.MONTHS:
             ws = wb.add_worksheet(month + " Totals")
             xlsx_formatting.create_month_total_format(wb, ws, numeric_date, month)
 
-        logging.info("Adding '[Year] Total' sheet")
+        my_constants.LOGGER.info("Adding '[Year] Total' sheet")
         # Add yearly total sheet at the end
         wb.add_worksheet(str(input_year) + " Totals")
         # TODO: ADD FORMATTING / FORMULAS FOR MONTHLY TOTAL USERS AND YEAR GRAND TOTAL
 
         wb.close()
 
-        logging.info("Leaving function: create_excel_workbook()")
+        my_constants.LOGGER.info("Leaving function: create_excel_workbook()")
         return wb
 
 
@@ -276,18 +191,23 @@ def create_study_rooms(wb, ws):
     ws.merge_range("A1:B2", "Time", general_headers)
 
     # Create headers using "study_rooms" function
-    for key in study_rooms():
-        ws.write(key + "1", study_rooms().get(key), general_headers)
-        if study_rooms().get(key) == "Study Room 5":
+    for key in my_constants.ROOM_LABELS:
+        ws.write(key + "1", my_constants.ROOM_LABELS.get(key), general_headers)
+
+        if my_constants.ROOM_LABELS.get(key) == "Study Room 5":
             ws.write(key + "2", "Max Capacity: 5", capacity_five)
-        elif study_rooms().get(key) == "Study Room 9":
+
+        elif my_constants.ROOM_LABELS.get(key) == "Study Room 9":
             ws.write(key + "2", "Max Capacity: 6", capacity_six)
-        elif study_rooms().get(key) == "Study Room 10" or study_rooms().get(key) == "Study Room 11":
+
+        elif my_constants.ROOM_LABELS.get(key) == "Study Room 10" or my_constants.ROOM_LABELS.get(key) == "Study Room 11":
             ws.write(key + "2", "Max Capacity: 2", capacity_two)
-        elif study_rooms().get(key) == "Conference Room":
-            ws.write(key + "1", study_rooms().get(key),
+
+        elif my_constants.ROOM_LABELS.get(key) == "Conference Room":
+            ws.write(key + "1", my_constants.ROOM_LABELS.get(key),
                      conf_room_headers)  # Overwriting general header formatting to include blue bg
             ws.write(key + "2", "Max Capacity: 8", general_headers)
+
         else:
             ws.write(key + "2", "Max Capacity: 4", general_headers)
     return
