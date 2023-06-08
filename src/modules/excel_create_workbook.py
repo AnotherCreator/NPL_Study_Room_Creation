@@ -23,13 +23,13 @@
 """
     THIS FILE WILL HANDLE CREATING THE ACTUAL WORKBOOK AND WORKSHEETS
 """
+from src.my_constants import \
+    LOGGER, MONTHS, ROOM_LABELS
+import src.modules.xlsx_formatting as xlsx_formatting
 
-import src.my_constants as my_constants
 import os.path
 from os.path import exists
-
 import xlsxwriter  # Library link: https://xlsxwriter.readthedocs.io/index.html
-import src.modules.xlsx_formatting as xlsx_formatting  # Python src file
 from openpyxl import *
 
 
@@ -73,25 +73,25 @@ def init_workbook(numeric_date, input_year):
         master_sheet.activate()  # First visible sheet upon opening file
     """
 
-    my_constants.LOGGER.info("Attempting to create: " + str(input_year) + " Study Room Log.xlsx")
+    LOGGER.info("Attempting to create: " + str(input_year) + " Study Room Log.xlsx")
     if exists("Test " + str(input_year) + " Study Room Log.xlsx"):
-        my_constants.LOGGER.info("Existing file found, file not created")
-        my_constants.LOGGER.info("Attempting to fetch file: "
+        LOGGER.info("Existing file found, file not created")
+        LOGGER.info("Attempting to fetch file: "
                      + os.path.basename(str(input_year) + " Study Room Log.xlsx"))
 
         existing_file = os.path.basename(str(input_year) + " Study Room Log.xlsx")
         wb = load_workbook(existing_file)
 
-        my_constants.LOGGER.info("File successfully fetched")
-        my_constants.LOGGER.info("Leaving function: create_excel_workbook()")
+        LOGGER.info("File successfully fetched")
+        LOGGER.info("Leaving function: create_excel_workbook()")
         return wb
     # Create Excel file if it does not exist
     else:
-        my_constants.LOGGER.info(str(input_year) + " Study Room Log.xlsx NOT FOUND")
-        my_constants.LOGGER.info("Creating: " + str(input_year) + " Study Room Log.xlsx")
+        LOGGER.info(str(input_year) + " Study Room Log.xlsx NOT FOUND")
+        LOGGER.info("Creating: " + str(input_year) + " Study Room Log.xlsx")
         wb = xlsxwriter.Workbook(str(input_year) + " Study Room Log.xlsx")
 
-        my_constants.LOGGER.info("Adding '[DayName] [Month] [DayNumber]' sheets")
+        LOGGER.info("Adding '[DayName] [Month] [DayNumber]' sheets")
         # Add 'DayName Month DayNumber' sheets
         # This will iterate through all known dates of the year
         for date in numeric_date:
@@ -120,20 +120,20 @@ def init_workbook(numeric_date, input_year):
             else:
                 xlsx_formatting.create_week_day_format(wb, ws)  # Create time format for weekdays
 
-        my_constants.LOGGER.info("Adding '[Month] Total' sheets")
+        LOGGER.info("Adding '[Month] Total' sheets")
         # Add monthly total sheets
-        for month in my_constants.MONTHS:
+        for month in MONTHS:
             ws = wb.add_worksheet(month + " Totals")
             xlsx_formatting.create_month_total_format(wb, ws, numeric_date, month)
 
-        my_constants.LOGGER.info("Adding '[Year] Total' sheet")
+        LOGGER.info("Adding '[Year] Total' sheet")
         # Add yearly total sheet at the end
         wb.add_worksheet(str(input_year) + " Totals")
         # TODO: ADD FORMATTING / FORMULAS FOR MONTHLY TOTAL USERS AND YEAR GRAND TOTAL
 
         wb.close()
 
-        my_constants.LOGGER.info("Leaving function: create_excel_workbook()")
+        LOGGER.info("Leaving function: create_excel_workbook()")
         return wb
 
 
@@ -191,20 +191,20 @@ def create_study_rooms(wb, ws):
     ws.merge_range("A1:B2", "Time", general_headers)
 
     # Create headers using "study_rooms" function
-    for key in my_constants.ROOM_LABELS:
-        ws.write(key + "1", my_constants.ROOM_LABELS.get(key), general_headers)
+    for key in ROOM_LABELS:
+        ws.write(key + "1", ROOM_LABELS.get(key), general_headers)
 
-        if my_constants.ROOM_LABELS.get(key) == "Study Room 5":
+        if ROOM_LABELS.get(key) == "Study Room 5":
             ws.write(key + "2", "Max Capacity: 5", capacity_five)
 
-        elif my_constants.ROOM_LABELS.get(key) == "Study Room 9":
+        elif ROOM_LABELS.get(key) == "Study Room 9":
             ws.write(key + "2", "Max Capacity: 6", capacity_six)
 
-        elif my_constants.ROOM_LABELS.get(key) == "Study Room 10" or my_constants.ROOM_LABELS.get(key) == "Study Room 11":
+        elif ROOM_LABELS.get(key) == "Study Room 10" or ROOM_LABELS.get(key) == "Study Room 11":
             ws.write(key + "2", "Max Capacity: 2", capacity_two)
 
-        elif my_constants.ROOM_LABELS.get(key) == "Conference Room":
-            ws.write(key + "1", my_constants.ROOM_LABELS.get(key),
+        elif ROOM_LABELS.get(key) == "Conference Room":
+            ws.write(key + "1", ROOM_LABELS.get(key),
                      conf_room_headers)  # Overwriting general header formatting to include blue bg
             ws.write(key + "2", "Max Capacity: 8", general_headers)
 

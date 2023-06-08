@@ -23,7 +23,8 @@
 """
     THIS FILE WILL CONTAIN MOST OF THE FORMATTING FUNCTIONS
 """
-import src.my_constants as my_constants
+from src.my_constants import \
+    COL_NAMES, ROW_NAMES, WEEKDAY_HOURS, SUN_SCHOOL_HOURS, SUN_SUMMER_HOURS
 
 
 def weekday_interval_times(wb, ws, interval_max=51):
@@ -146,12 +147,12 @@ def create_week_day_format(wb, ws):
     column_all_border.set_bottom(1)
 
     # Column names that need cell column borders
-    for col in my_constants.COL_NAMES:
+    for col in COL_NAMES:
         for x in range(3, 51):
             ws.write(col + str(x), "", column_borders)
 
     # Column names that need cell row borders
-    for col in my_constants.ROW_NAMES:
+    for col in ROW_NAMES:
         n = 6
         for x in range(3, 51):
             if x == n:
@@ -160,8 +161,8 @@ def create_week_day_format(wb, ws):
             else:
                 continue
 
-    for key in my_constants.WEEKDAY_HOURS:
-        ws.merge_range(key, my_constants.WEEKDAY_HOURS.get(key), general_headers)
+    for key in WEEKDAY_HOURS:
+        ws.merge_range(key, WEEKDAY_HOURS.get(key), general_headers)
 
     weekday_interval_times(wb, ws)
 
@@ -187,12 +188,12 @@ def create_sat_format(wb, ws):
     column_all_border.set_bottom(1)
 
     # Column names that need cell borders
-    for col in my_constants.COL_NAMES:
+    for col in COL_NAMES:
         for x in range(3, 35):
             ws.write(col + str(x), "", column_borders)
 
     # Column names that need cell row borders
-    for col in my_constants.ROW_NAMES:
+    for col in ROW_NAMES:
         n = 6
         for x in range(3, 35):
             if x == n:
@@ -202,10 +203,10 @@ def create_sat_format(wb, ws):
                 continue
 
     # Add hourly cells
-    for key in my_constants.WEEKDAY_HOURS:
+    for key in WEEKDAY_HOURS:
         if "A38" in key or "A42" in key or "A46" in key or "A50" in key:
             continue
-        ws.merge_range(key, my_constants.WEEKDAY_HOURS.get(key), general_headers)
+        ws.merge_range(key, WEEKDAY_HOURS.get(key), general_headers)
 
     weekday_interval_times(wb, ws, 35)
 
@@ -231,12 +232,12 @@ def create_sun_format(wb, ws):  # For months excluding June, July, August
     column_all_border.set_bottom(1)
 
     # Column names that need cell borders
-    for col in my_constants.COL_NAMES:
+    for col in COL_NAMES:
         for x in range(3, 35):
             ws.write(col + str(x), "", column_borders)
 
     # Column names that need cell row borders
-    for col in my_constants.ROW_NAMES:
+    for col in ROW_NAMES:
         n = 6
         for x in range(3, 35):
             if x == n:
@@ -245,8 +246,8 @@ def create_sun_format(wb, ws):  # For months excluding June, July, August
             else:
                 continue
 
-    for key in my_constants.SUN_SCHOOL_HOURS:
-        ws.merge_range(key, my_constants.SUN_SCHOOL_HOURS.get(key), general_headers)
+    for key in SUN_SCHOOL_HOURS:
+        ws.merge_range(key, SUN_SCHOOL_HOURS.get(key), general_headers)
 
     sun_reg_interval_times(wb, ws)
 
@@ -272,12 +273,12 @@ def create_summer_sun_format(wb, ws):  # For months including June, July, August
     column_all_border.set_bottom(1)
 
     # Column names that need cell borders
-    for col in my_constants.COL_NAMES:
+    for col in COL_NAMES:
         for x in range(3, 19):
             ws.write(col + str(x), "", column_borders)
 
     # Column names that need cell row borders
-    for col in my_constants.ROW_NAMES:
+    for col in ROW_NAMES:
         n = 6
         for x in range(3, 19):
             if x == n:
@@ -286,8 +287,8 @@ def create_summer_sun_format(wb, ws):  # For months including June, July, August
             else:
                 continue
 
-    for key in my_constants.SUN_SUMMER_HOURS:
-        ws.merge_range(key, my_constants.SUN_SUMMER_HOURS.get(key), general_headers)
+    for key in SUN_SUMMER_HOURS:
+        ws.merge_range(key, SUN_SUMMER_HOURS.get(key), general_headers)
 
     sun_reg_interval_times(wb, ws, 19)
 
