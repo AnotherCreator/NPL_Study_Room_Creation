@@ -24,7 +24,47 @@
     THIS FILE WILL CONTAIN MOST OF THE FORMATTING FUNCTIONS
 """
 from src.constants import \
-    COL_NAMES, ROW_NAMES, WEEKDAY_HOURS, SUN_SCHOOL_HOURS, SUN_SUMMER_HOURS
+    ROOM_LABELS, COL_NAMES, ROW_NAMES, \
+    WEEKDAY_HOURS, SUN_SCHOOL_HOURS, SUN_SUMMER_HOURS, \
+    GENERAL_HEADER, CONFERENCE_ROOM_HEADER, CAPACITY_TWO, CAPACITY_FIVE, CAPACITY_SIX
+
+def create_worksheets():
+    pass
+
+def create_worksheet_headers(wb, ws):
+    # Freeze Panes
+    ws.freeze_panes("C3")  # This will freeze the study room and time information (Rows 1-2 / Columns A-B)
+
+    # Adjust column widths
+    ws.set_column(2, 13, 16.5)  # Study room columns "C:N" with width of 16.5
+    ws.set_column(14, 14, 21)  # Conference room column with width of 21
+    ws.set_column(15, 16, 16.5)  # SRS / GSR column with width of 16.5
+
+    # Set row 1 column headers
+    # Create "Time" header
+    ws.merge_range("A1:B2", "Time", GENERAL_HEADER)
+
+    # Create headers using "study_rooms" function
+    for key in ROOM_LABELS:
+        ws.write(key + "1", ROOM_LABELS.get(key), GENERAL_HEADER)
+
+        if ROOM_LABELS.get(key) == "Study Room 5":
+            ws.write(key + "2", "Max Capacity: 5", CAPACITY_FIVE)
+
+        elif ROOM_LABELS.get(key) == "Study Room 9":
+            ws.write(key + "2", "Max Capacity: 6", CAPACITY_SIX)
+
+        elif ROOM_LABELS.get(key) == "Study Room 10" or ROOM_LABELS.get(key) == "Study Room 11":
+            ws.write(key + "2", "Max Capacity: 2", CAPACITY_TWO)
+
+        elif ROOM_LABELS.get(key) == "Conference Room":
+            # Overwriting general header formatting to include blue bg
+            ws.write(key + "1", ROOM_LABELS.get(key), CONFERENCE_ROOM_HEADER)
+            ws.write(key + "2", "Max Capacity: 8", GENERAL_HEADER)
+
+        else:
+            ws.write(key + "2", "Max Capacity: 4", GENERAL_HEADER)
+    return
 
 
 def weekday_interval_times(wb, ws, interval_max=51):
@@ -129,13 +169,6 @@ def create_formulas(wb, ws):
 
 
 def create_week_day_format(wb, ws):
-    # Header formatting properties
-    general_headers = wb.add_format({"bold": True})
-    general_headers.set_font("Calibri")
-    general_headers.set_font_size(14)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
-
     # Cell formatting properties
     column_borders = wb.add_format()
     column_borders.set_left(1)
@@ -162,7 +195,7 @@ def create_week_day_format(wb, ws):
                 continue
 
     for key in WEEKDAY_HOURS:
-        ws.merge_range(key, WEEKDAY_HOURS.get(key), general_headers)
+        ws.merge_range(key, WEEKDAY_HOURS.get(key), GENERAL_HEADER)
 
     weekday_interval_times(wb, ws)
 
@@ -170,13 +203,6 @@ def create_week_day_format(wb, ws):
 
 
 def create_sat_format(wb, ws):
-    # Header formatting properties
-    general_headers = wb.add_format({"bold": True})
-    general_headers.set_font("Calibri")
-    general_headers.set_font_size(14)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
-
     # Cell formatting properties
     column_borders = wb.add_format()
     column_borders.set_left(1)
@@ -206,7 +232,7 @@ def create_sat_format(wb, ws):
     for key in WEEKDAY_HOURS:
         if "A38" in key or "A42" in key or "A46" in key or "A50" in key:
             continue
-        ws.merge_range(key, WEEKDAY_HOURS.get(key), general_headers)
+        ws.merge_range(key, WEEKDAY_HOURS.get(key), GENERAL_HEADER)
 
     weekday_interval_times(wb, ws, 35)
 
@@ -214,13 +240,6 @@ def create_sat_format(wb, ws):
 
 
 def create_sun_format(wb, ws):  # For months excluding June, July, August
-    # Header formatting properties
-    general_headers = wb.add_format({"bold": True})
-    general_headers.set_font("Calibri")
-    general_headers.set_font_size(14)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
-
     # Cell formatting properties
     column_borders = wb.add_format()
     column_borders.set_left(1)
@@ -247,7 +266,7 @@ def create_sun_format(wb, ws):  # For months excluding June, July, August
                 continue
 
     for key in SUN_SCHOOL_HOURS:
-        ws.merge_range(key, SUN_SCHOOL_HOURS.get(key), general_headers)
+        ws.merge_range(key, SUN_SCHOOL_HOURS.get(key), GENERAL_HEADER)
 
     sun_reg_interval_times(wb, ws)
 
@@ -255,13 +274,6 @@ def create_sun_format(wb, ws):  # For months excluding June, July, August
 
 
 def create_summer_sun_format(wb, ws):  # For months including June, July, August
-    # Header formatting properties
-    general_headers = wb.add_format({"bold": True})
-    general_headers.set_font("Calibri")
-    general_headers.set_font_size(14)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
-
     # Cell formatting properties
     column_borders = wb.add_format()
     column_borders.set_left(1)
@@ -288,7 +300,7 @@ def create_summer_sun_format(wb, ws):  # For months including June, July, August
                 continue
 
     for key in SUN_SUMMER_HOURS:
-        ws.merge_range(key, SUN_SUMMER_HOURS.get(key), general_headers)
+        ws.merge_range(key, SUN_SUMMER_HOURS.get(key), GENERAL_HEADER)
 
     sun_reg_interval_times(wb, ws, 19)
 
@@ -309,19 +321,13 @@ def month_total_indirect_formula(ws, n, string_date):
 
 
 def create_month_total_format(wb, ws, numeric_date, month):
-    general_headers = wb.add_format({"bold": True})
-    general_headers.set_font("Calibri")
-    general_headers.set_font_size(14)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
-
     # Adjust column width
     ws.set_column(0, 0, 17.5)  # Study room columns "A" with width of 17.5
     ws.set_column(0, 1, 17.5)  # Study room columns "B" with width of 17.5
 
     # Add header
-    ws.write(0, 0, "Worksheet Name", general_headers)
-    ws.write(0, 1, "Totals", general_headers)
+    ws.write(0, 0, "Worksheet Name", GENERAL_HEADER)
+    ws.write(0, 1, "Totals", GENERAL_HEADER)
 
     # Add totals section
     ws.write(32, 0, "Month Totals")
