@@ -32,14 +32,10 @@ from os.path import exists
 import xlsxwriter  # Library link: https://xlsxwriter.readthedocs.io/index.html
 from openpyxl import *
 
-
-
 """
     CREATING THE WORKBOOK BASED ON USER YEAR
 """
-
-
-def init_workbook(numeric_date, input_year):
+def init_workbook(input_year):
     # Check if file was already created
     """ This section is for the macro-enabled master sheet style workbook
     logging.info("Attempting to create: " + str(input_year) + " Study Room Log.xlsm")
@@ -49,19 +45,19 @@ def init_workbook(numeric_date, input_year):
                      + os.path.basename(str(input_year) + " Study Room Log.xlsm"))
 
         existing_file = os.path.basename(str(input_year) + " Study Room Log.xlsm")
-        wb = load_workbook(existing_file)
+        WORKBOOK = load_workbook(existing_file)
 
         logging.info("File successfully fetched")
         logging.info("Leaving function: create_excel_workbook()")
-        return wb
+        return WORKBOOK
     # Create Excel file if it does not exist
     else:
         logging.info(str(input_year) + " Study Room Log.xlsm NOT FOUND")
         logging.info("Creating: " + str(input_year) + " Study Room Log.xlsm")
-        wb = xlsxwriter.Workbook(str(input_year) + " Study Room Log.xlsm")
+        WORKBOOK = xlsxwriter.Workbook(str(input_year) + " Study Room Log.xlsm")
 
-        wb.add_vba_project('vbaProject.bin')  # Add .bin file with preloaded macros | enables .xlsm creation
-        master_sheet = wb.add_worksheet("Master Worksheet")
+        WORKBOOK.add_vba_project('vbaProject.bin')  # Add .bin file with preloaded macros | enables .xlsm creation
+        master_sheet = WORKBOOK.add_worksheet("Master Worksheet")
 
         # Url Test Block
         # TODO: Delete this block after automating url writing (148 - 152)
@@ -90,58 +86,57 @@ def init_workbook(numeric_date, input_year):
         LOGGER.info(str(input_year) + " Study Room Log.xlsx NOT FOUND")
         LOGGER.info("Creating: " + str(input_year) + " Study Room Log.xlsx")
         wb = xlsxwriter.Workbook(str(input_year) + " Study Room Log.xlsx")
-
-        LOGGER.info("Adding '[DayName] [Month] [DayNumber]' sheets")
-        # Add 'DayName Month DayNumber' sheets
-        # This will iterate through all known dates of the year
-        for date in numeric_date:
-            string_date = date.strftime("%a %b %d")
-            ws = wb.add_worksheet(string_date)  # Add 'DayName Month DayNumber' sheets
-            # Adjust column widths
-            ws.set_column(0, 0, 7.5)  # Hourly time width
-            ws.set_column(1, 1, 5.5)  # Quarter intervals
-
-            # General worksheet formatting
-            """  This section is related to the master sheet style workbook
-            # ws.hide()  # Hide worksheet by default -- access by master link
-            """
-            ws.set_default_row(hide_unused_rows=True)
-            create_study_rooms(wb, ws)  # Add room columns and formatting
-            xlsx_formatting.create_formulas(wb, ws)  # Add formulas
-
-            # Create y-axis time blocks
-            if "Sun" in string_date:  # Create time format for Sundays
-                if "Jun" in string_date or "Jul" in string_date or "Aug" in string_date:
-                    xlsx_formatting.create_summer_sun_format(wb, ws)
-                else:
-                    xlsx_formatting.create_sun_format(wb, ws)
-            elif "Sat" in string_date:  # Create time format for Saturdays
-                xlsx_formatting.create_sat_format(wb, ws)
-            else:
-                xlsx_formatting.create_week_day_format(wb, ws)  # Create time format for weekdays
-
-        LOGGER.info("Adding '[Month] Total' sheets")
-        # Add monthly total sheets
-        for month in MONTHS:
-            ws = wb.add_worksheet(month + " Totals")
-            xlsx_formatting.create_month_total_format(wb, ws, numeric_date, month)
-
-        LOGGER.info("Adding '[Year] Total' sheet")
-        # Add yearly total sheet at the end
-        wb.add_worksheet(str(input_year) + " Totals")
-        # TODO: ADD FORMATTING / FORMULAS FOR MONTHLY TOTAL USERS AND YEAR GRAND TOTAL
-
-        wb.close()
-
         LOGGER.info("Leaving function: create_excel_workbook()")
         return wb
+
+def create_daily_worksheets(wb, list_of_dates):
+    LOGGER.info("Adding '[DayName] [Month] [DayNumber]' sheets")
+    # Add 'DayName Month DayNumber' sheets
+    # This will iterate through all known dates of the year
+    for date in list_of_dates:
+        string_date = date.strftime("%a %b %d")
+        ws = wb.add_worksheet(string_date)  # Add 'DayName Month DayNumber' sheets
+        # Adjust column widths
+        ws.set_column(0, 0, 7.5)  # Hourly time width
+        ws.set_column(1, 1, 5.5)  # Quarter intervals
+
+        # General worksheet formatting
+        """  This section is related to the master sheet style workbook
+        # ws.hide()  # Hide worksheet by default -- access by master link
+        """
+        ws.set_default_row(hide_unused_rows=True)
+        create_study_rooms(wb, ws)  # Add room columns and formatting
+        xlsx_formatting.create_formulas(wb, ws)  # Add formulas
+
+        # Create y-axis time blocks
+        if "Sun" in string_date:  # Create time format for Sundays
+            if "Jun" in string_date or "Jul" in string_date or "Aug" in string_date:
+                xlsx_formatting.create_summer_sun_format(wb, ws)
+            else:
+                xlsx_formatting.create_sun_format(wb, ws)
+        elif "Sat" in string_date:  # Create time format for Saturdays
+            xlsx_formatting.create_sat_format(wb, ws)
+        else:
+            xlsx_formatting.create_week_day_format(wb, ws)  # Create time format for weekdays
+
+def create_month_total_worksheets(wb, list_of_dates):
+    LOGGER.info("Adding '[Month] Total' sheets")
+    # Add monthly total sheets
+    for month in MONTHS:
+        ws = wb.add_worksheet(month + " Totals")
+        xlsx_formatting.create_month_total_format(wb, ws, list_of_dates, month)
+
+
+def create_year_total_worksheet(wb, input_year):
+    LOGGER.info("Adding '[Year] Total' sheet")
+    # Add yearly total sheet at the end
+    wb.add_worksheet(str(input_year) + " Totals")
+    # TODO: ADD FORMATTING / FORMULAS FOR MONTHLY TOTAL USERS AND YEAR GRAND TOTAL
 
 
 """
     FORMATTING EACH STUDY ROOM WORKSHEET IN THE WORKBOOK
 """
-
-
 def create_study_rooms(wb, ws):
     # Header formatting properties
     general_headers = wb.add_format({"bold": True})
