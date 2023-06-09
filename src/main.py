@@ -60,10 +60,14 @@ def main():
     list_of_dates = get_days_of_current_year(userinput_year)
 
     # Send the lists of dates to be used for each individual workbook worksheet page
+    # Create unique workbook
     LOGGER.info("Entering file 'excel_create_workbook.py'"
                  "and attempting to call function 'init_workbook'")
-    create_workbook.init_workbook(list_of_dates, userinput_year)
-
+    wb = create_workbook.init_workbook(userinput_year)
+    create_workbook.create_daily_worksheets(wb, list_of_dates)
+    create_workbook.create_month_total_worksheets(wb, list_of_dates)
+    create_workbook.create_year_total_worksheet(wb, userinput_year)
+    wb.close()
     LOGGER.info("Ending program")
 
 
