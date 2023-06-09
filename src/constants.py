@@ -21,13 +21,21 @@
 # SOFTWARE.
 
 import logging
+import xlsxwriter
 
+WORKBOOK = xlsxwriter.Workbook()
 LOGGER = logging.getLogger()
-MONTHS = ["January", "February", "March", "April",
-                  "May", "June", "July", "August",
-                  "September", "October", "November", "December"]
-COL_NAMES = {"D", "F", "H", "J", "L", "N", "P", "Q"}
-ROW_NAMES = {"C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q"}
+
+MONTHS = ["January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"]
+
+COL_NAMES = {
+        "D", "F", "H", "J", "L", "N", "P", "Q"
+}
+
+ROW_NAMES = {
+        "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q"
+}
 
 ROOM_LABELS = {
         # FORMAT = Column Letter: Name of room
@@ -93,3 +101,26 @@ SUN_SUMMER_HOURS = {
         "A11:A14": "3:00",
         "A15:A18": "4:00"
     }
+
+"""
+MAIN HEADER FORMATTING PROPERTIES
+"""
+GENERAL_HEADER = WORKBOOK.add_format(
+        {"bold": True, "font": "Calibri", "font_size": 12, "align": "center"}
+)
+
+CONFERENCE_ROOM_HEADER = WORKBOOK.add_format(
+        {"bold": True, "font": "Calibri", "bg_color": "00B0F0", "font_size": 12, "align": "center"}
+)
+
+CAPACITY_TWO = WORKBOOK.add_format(
+        {"bold": True, "font": "Calibri", "bg_color": "red", "font_size": 12, "align": "center"}
+)
+
+CAPACITY_FIVE = WORKBOOK.add_format(
+        {"bold": True, "font": "Calibri", "bg_color": "yellow", "font_size": 12, "align": "center"}
+)
+
+CAPACITY_SIX = WORKBOOK.add_format(
+        {"bold": True, "font": "Calibri", "bg_color": "lime", "font_size": 12, "align": "center"}
+)
