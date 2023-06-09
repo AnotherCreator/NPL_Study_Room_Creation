@@ -34,19 +34,6 @@ from UliEngineering.Utils.Date import all_dates_in_year
 from modules import excel_create_workbook as create_workbook
 
 
-def get_days_of_current_year(year):
-    # 'date' format: (year, month, day)
-    # Does not include weekday name
-    days_in_a_year = []
-
-    for x in all_dates_in_year(year):
-        numeric_date = datetime(x.year, x.month, x.day)
-        days_in_a_year.append(numeric_date)
-
-    LOGGER.info("Leaving function: get_days_of_next_year()")
-    return days_in_a_year
-
-
 def main():
     LOGGER.info("Starting program")
 
@@ -69,6 +56,18 @@ def main():
     create_workbook.create_year_total_worksheet(wb, userinput_year)
     wb.close()
     LOGGER.info("Ending program")
+
+def get_days_of_current_year(year):
+    # 'date' format: (year, month, day)
+    # Does not include weekday name
+    days_in_a_year = []
+
+    for x in all_dates_in_year(year):
+        numeric_date = datetime(x.year, x.month, x.day)
+        days_in_a_year.append(numeric_date)
+
+    LOGGER.info("Leaving function: get_days_of_next_year()")
+    return days_in_a_year
 
 
 if __name__ == "__main__":
