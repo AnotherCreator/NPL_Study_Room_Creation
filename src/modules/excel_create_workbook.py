@@ -25,7 +25,7 @@
 """
 from src.constants import \
     LOGGER, MONTHS, ROOM_LABELS
-import src.modules.xlsx_formatting as xlsx_formatting
+import modules.xlsx_formatting as xlsx_formatting
 
 import os.path
 from os.path import exists
