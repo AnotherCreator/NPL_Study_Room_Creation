@@ -28,9 +28,6 @@ from src.constants import \
     WEEKDAY_HOURS, SUN_SCHOOL_HOURS, SUN_SUMMER_HOURS, \
     GENERAL_HEADER, CONFERENCE_ROOM_HEADER, CAPACITY_TWO, CAPACITY_FIVE, CAPACITY_SIX
 
-def create_worksheets():
-    pass
-
 def create_worksheet_headers(wb, ws):
     # Freeze Panes
     ws.freeze_panes("C3")  # This will freeze the study room and time information (Rows 1-2 / Columns A-B)
@@ -320,7 +317,7 @@ def month_total_indirect_formula(ws, n, string_date):
                      + indirect_formula_complete_half)
 
 
-def create_month_total_format(wb, ws, numeric_date, month):
+def create_month_total_format(ws, numeric_date, month):
     # Adjust column width
     ws.set_column(0, 0, 17.5)  # Study room columns "A" with width of 17.5
     ws.set_column(0, 1, 17.5)  # Study room columns "B" with width of 17.5
