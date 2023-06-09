@@ -105,7 +105,7 @@ def create_daily_worksheets(wb, list_of_dates):
         # ws.hide()  # Hide worksheet by default -- access by master link
         """
         ws.set_default_row(hide_unused_rows=True)
-        create_study_rooms(wb, ws)  # Add room columns and formatting
+        xlsx_formatting.create_worksheet_headers(wb, ws)  # Add room columns and formatting
         xlsx_formatting.create_formulas(wb, ws)  # Add formulas
 
         # Create y-axis time blocks
@@ -124,7 +124,7 @@ def create_month_total_worksheets(wb, list_of_dates):
     # Add monthly total sheets
     for month in MONTHS:
         ws = wb.add_worksheet(month + " Totals")
-        xlsx_formatting.create_month_total_format(wb, ws, list_of_dates, month)
+        xlsx_formatting.create_month_total_format(ws, list_of_dates, month)
 
 
 def create_year_total_worksheet(wb, input_year):
@@ -132,77 +132,3 @@ def create_year_total_worksheet(wb, input_year):
     # Add yearly total sheet at the end
     wb.add_worksheet(str(input_year) + " Totals")
     # TODO: ADD FORMATTING / FORMULAS FOR MONTHLY TOTAL USERS AND YEAR GRAND TOTAL
-
-
-"""
-    FORMATTING EACH STUDY ROOM WORKSHEET IN THE WORKBOOK
-"""
-def create_study_rooms(wb, ws):
-    # Header formatting properties
-    general_headers = wb.add_format({"bold": True})
-    general_headers.set_font("Calibri")
-    general_headers.set_font_size(12)
-    general_headers.set_align("vcenter")
-    general_headers.set_align("center")
-
-    conf_room_headers = wb.add_format({"bold": True})
-    conf_room_headers.set_font("Calibri")
-    conf_room_headers.set_bg_color("00B0F0")
-    conf_room_headers.set_font_size(12)
-    conf_room_headers.set_align("vcenter")
-    conf_room_headers.set_align("center")
-
-    capacity_two = wb.add_format({"bold": True})
-    capacity_two.set_font("Calibri")
-    capacity_two.set_bg_color("red")
-    capacity_two.set_font_size(12)
-    capacity_two.set_align("vcenter")
-    capacity_two.set_align("center")
-
-    capacity_five = wb.add_format({"bold": True})
-    capacity_five.set_font("Calibri")
-    capacity_five.set_bg_color("yellow")
-    capacity_five.set_font_size(12)
-    capacity_five.set_align("vcenter")
-    capacity_five.set_align("center")
-
-    capacity_six = wb.add_format({"bold": True})
-    capacity_six.set_font("Calibri")
-    capacity_six.set_bg_color("lime")
-    capacity_six.set_font_size(12)
-    capacity_six.set_align("vcenter")
-    capacity_six.set_align("center")
-
-    # Freeze Panes
-    ws.freeze_panes("C3")  # This will freeze the study room and time information (Rows 1-2 / Columns A-B)
-
-    # Adjust column widths
-    ws.set_column(2, 13, 16.5)  # Study room columns "C:N" with width of 16.5
-    ws.set_column(14, 14, 21)  # Conference room column with width of 21
-    ws.set_column(15, 16, 16.5)  # SRS / GSR column with width of 16.5
-
-    # Set row 1 column headers
-    # Create "Time" header
-    ws.merge_range("A1:B2", "Time", general_headers)
-
-    # Create headers using "study_rooms" function
-    for key in ROOM_LABELS:
-        ws.write(key + "1", ROOM_LABELS.get(key), general_headers)
-
-        if ROOM_LABELS.get(key) == "Study Room 5":
-            ws.write(key + "2", "Max Capacity: 5", capacity_five)
-
-        elif ROOM_LABELS.get(key) == "Study Room 9":
-            ws.write(key + "2", "Max Capacity: 6", capacity_six)
-
-        elif ROOM_LABELS.get(key) == "Study Room 10" or ROOM_LABELS.get(key) == "Study Room 11":
-            ws.write(key + "2", "Max Capacity: 2", capacity_two)
-
-        elif ROOM_LABELS.get(key) == "Conference Room":
-            ws.write(key + "1", ROOM_LABELS.get(key),
-                     conf_room_headers)  # Overwriting general header formatting to include blue bg
-            ws.write(key + "2", "Max Capacity: 8", general_headers)
-
-        else:
-            ws.write(key + "2", "Max Capacity: 4", general_headers)
-    return
