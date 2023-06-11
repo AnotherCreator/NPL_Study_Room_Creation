@@ -29,9 +29,11 @@ from src.constants import \
 
 
 def get_general_header(wb):
-    return wb.add_format(
-        {"bold": True, "font": "Calibri", "font_size": 12, "align": "center"}
+    general_header = wb.add_format(
+        {"bold": True, "font": "Calibri", "font_size": 12, "align": "center"}  # "align" also affects hourly blocks
     )
+    general_header.set_align("vcenter")  # Separate method call to stack alignment properties
+    return general_header
 
 
 def get_conference_room_header(wb):

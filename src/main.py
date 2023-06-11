@@ -57,6 +57,7 @@ def main():
     wb.close()
     LOGGER.info("Ending program")
 
+
 def get_days_of_current_year(year):
     # 'date' format: (year, month, day)
     # Does not include weekday name
