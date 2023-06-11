@@ -60,6 +60,18 @@ def get_capacity_six_header(wb):
     )
 
 
+def get_column_border(wb, border_type=0):
+    match border_type:
+        case 0:
+            return wb.add_format(
+                {"left": True, "right": True}
+            )
+        case 1:
+            return wb.add_format(
+                {"left": True, "right": True, "bottom": True}
+            )
+
+
 def create_worksheet_headers(wb, ws):
     # Freeze Panes
     ws.freeze_panes("C3")  # This will freeze the study room and time information (Rows 1-2 / Columns A-B)
@@ -129,31 +141,22 @@ def create_formulas(ws):
 
 
 def create_week_day_format(wb, ws):
-    # Cell formatting properties
-    column_borders = wb.add_format()
-    column_borders.set_left(1)
-    column_borders.set_right(1)
-
-    column_all_border = wb.add_format()
-    column_all_border.set_left(1)
-    column_all_border.set_right(1)
-    column_all_border.set_bottom(1)
-
     # Column names that need cell column borders
     for col in COL_NAMES:
         for x in range(3, 51):
-            ws.write(col + str(x), "", column_borders)
+            ws.write(col + str(x), "", get_column_border(wb))
 
     # Column names that need cell row borders
     for col in ROW_NAMES:
         n = 6
         for x in range(3, 51):
             if x == n:
-                ws.write(col + str(x), "", column_all_border)
+                ws.write(col + str(x), "", get_column_border(wb, 1))
                 n += 4
             else:
                 continue
 
+    # Add hourly cells
     for key in WEEKDAY_HOURS:
         ws.merge_range(key, WEEKDAY_HOURS.get(key), get_general_header(wb))
 
@@ -163,27 +166,17 @@ def create_week_day_format(wb, ws):
 
 
 def create_sat_format(wb, ws):
-    # Cell formatting properties
-    column_borders = wb.add_format()
-    column_borders.set_left(1)
-    column_borders.set_right(1)
-
-    column_all_border = wb.add_format()
-    column_all_border.set_left(1)
-    column_all_border.set_right(1)
-    column_all_border.set_bottom(1)
-
     # Column names that need cell borders
     for col in COL_NAMES:
         for x in range(3, 35):
-            ws.write(col + str(x), "", column_borders)
+            ws.write(col + str(x), "", get_column_border(wb))
 
     # Column names that need cell row borders
     for col in ROW_NAMES:
         n = 6
         for x in range(3, 35):
             if x == n:
-                ws.write(col + str(x), "", column_all_border)
+                ws.write(col + str(x), "", get_column_border(wb, 1))
                 n += 4
             else:
                 continue
@@ -200,31 +193,22 @@ def create_sat_format(wb, ws):
 
 
 def create_sun_format(wb, ws):  # For months excluding June, July, August
-    # Cell formatting properties
-    column_borders = wb.add_format()
-    column_borders.set_left(1)
-    column_borders.set_right(1)
-
-    column_all_border = wb.add_format()
-    column_all_border.set_left(1)
-    column_all_border.set_right(1)
-    column_all_border.set_bottom(1)
-
     # Column names that need cell borders
     for col in COL_NAMES:
         for x in range(3, 35):
-            ws.write(col + str(x), "", column_borders)
+            ws.write(col + str(x), "", get_column_border(wb))
 
     # Column names that need cell row borders
     for col in ROW_NAMES:
         n = 6
         for x in range(3, 35):
             if x == n:
-                ws.write(col + str(x), "", column_all_border)
+                ws.write(col + str(x), "", get_column_border(wb, 1))
                 n += 4
             else:
                 continue
 
+    # Add hourly cells
     for key in SUN_SCHOOL_HOURS:
         ws.merge_range(key, SUN_SCHOOL_HOURS.get(key), get_general_header(wb))
 
@@ -234,31 +218,22 @@ def create_sun_format(wb, ws):  # For months excluding June, July, August
 
 
 def create_summer_sun_format(wb, ws):  # For months including June, July, August
-    # Cell formatting properties
-    column_borders = wb.add_format()
-    column_borders.set_left(1)
-    column_borders.set_right(1)
-
-    column_all_border = wb.add_format()
-    column_all_border.set_left(1)
-    column_all_border.set_right(1)
-    column_all_border.set_bottom(1)
-
     # Column names that need cell borders
     for col in COL_NAMES:
         for x in range(3, 19):
-            ws.write(col + str(x), "", column_borders)
+            ws.write(col + str(x), "", get_column_border(wb))
 
     # Column names that need cell row borders
     for col in ROW_NAMES:
         n = 6
         for x in range(3, 19):
             if x == n:
-                ws.write(col + str(x), "", column_all_border)
+                ws.write(col + str(x), "", get_column_border(wb, 1))
                 n += 4
             else:
                 continue
 
+    # Add hourly cells
     for key in SUN_SUMMER_HOURS:
         ws.merge_range(key, SUN_SUMMER_HOURS.get(key), get_general_header(wb))
 
