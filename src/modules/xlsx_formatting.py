@@ -25,7 +25,7 @@
 """
 from src.constants import \
     ROOM_LABELS, COL_NAMES, ROW_NAMES, \
-    WEEKDAY_HOURS, SUN_SCHOOL_HOURS, SUN_SUMMER_HOURS
+    WEEKDAY_HOURS, SUN_SCHOOL_HOURS, SUN_SUMMER_HOURS, HOURLY_BLOCKS
 
 
 def get_general_header(wb):
@@ -96,11 +96,11 @@ def create_worksheet_headers(wb, ws):
     return
 
 
-def weekday_interval_times(wb, ws, interval_max=51):
-    times = ["9:00", "10:00", "11:00", "12:00", "1:00", "2:00", "3:00", "4:00", "5:00", "6:00", "7:00", "8:00"]
-    times_counter = 0
-
+def write_15_minute_intervals(wb, ws, hourly_block_start_time, interval_max=51):
+    # hourly_block_start_time is based off of 'HOURLY_BLOCKS' and the starting hour
+    hourly_counter = hourly_block_start_time
     column_name = "B"  # Letter of column holding 15-min intervals
+
     interval_align_right = wb.add_format()
     interval_align_right.set_align("right")
 
@@ -110,83 +110,14 @@ def weekday_interval_times(wb, ws, interval_max=51):
         if min_interval == 45:
             min_interval = 0
 
-        ws.write(column_name + str(i), times[times_counter], interval_align_right)
+        ws.write(column_name + str(i), HOURLY_BLOCKS[hourly_counter], interval_align_right)
         min_interval += 15
 
         for num in range(i + 1, i + 4):
-            ws.write("B" + str(num), times[times_counter][:-2] + str(min_interval), interval_align_right)
+            ws.write("B" + str(num), HOURLY_BLOCKS[hourly_counter][:-2] + str(min_interval), interval_align_right)
             min_interval += 15
 
-        times_counter += 1
-
-
-def sun_reg_interval_times(wb, ws, interval_max=35):
-    min_interval = 0  # 15 min interval
-    column_name = "B"  # Letter of column holding 15-min intervals
-
-    interval_align_right = wb.add_format()
-    interval_align_right.set_align("right")
-
-    for x in range(3, interval_max):
-        if min_interval == 60:  # Reset interval counter before each hour
-            min_interval = 0
-
-        if x < 7:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "1:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "1:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 6 < x < 11:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "2:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "2:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 10 < x < 15:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "3:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "3:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 14 < x < 19:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "4:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "4:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 18 < x < 23:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "5:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "5:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 22 < x < 27:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "6:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "6:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        elif 26 < x < 31:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "7:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "7:" + str(min_interval), interval_align_right)
-                min_interval += 15
-        else:
-            if min_interval == 0:
-                ws.write(column_name + str(x), "8:00", interval_align_right)
-                min_interval += 15
-            else:
-                ws.write("B" + str(x), "8:" + str(min_interval), interval_align_right)
-                min_interval += 15
+        hourly_counter += 1
 
 
 def create_formulas(ws):
@@ -226,7 +157,7 @@ def create_week_day_format(wb, ws):
     for key in WEEKDAY_HOURS:
         ws.merge_range(key, WEEKDAY_HOURS.get(key), get_general_header(wb))
 
-    weekday_interval_times(wb, ws)
+    write_15_minute_intervals(wb, ws, 0)
 
     return
 
@@ -263,7 +194,7 @@ def create_sat_format(wb, ws):
             continue
         ws.merge_range(key, WEEKDAY_HOURS.get(key), get_general_header(wb))
 
-    weekday_interval_times(wb, ws, 35)
+    write_15_minute_intervals(wb, ws, 0, 35)
 
     return
 
@@ -297,7 +228,7 @@ def create_sun_format(wb, ws):  # For months excluding June, July, August
     for key in SUN_SCHOOL_HOURS:
         ws.merge_range(key, SUN_SCHOOL_HOURS.get(key), get_general_header(wb))
 
-    sun_reg_interval_times(wb, ws)
+    write_15_minute_intervals(wb, ws, 4, 35)
 
     return
 
@@ -331,7 +262,7 @@ def create_summer_sun_format(wb, ws):  # For months including June, July, August
     for key in SUN_SUMMER_HOURS:
         ws.merge_range(key, SUN_SUMMER_HOURS.get(key), get_general_header(wb))
 
-    sun_reg_interval_times(wb, ws, 19)
+    write_15_minute_intervals(wb, ws, 4, 19)
 
     return
 
