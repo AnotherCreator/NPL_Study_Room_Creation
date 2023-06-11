@@ -25,12 +25,13 @@
 """
 from src.constants import \
     LOGGER, MONTHS, ROOM_LABELS
-import modules.xlsx_formatting as xlsx_formatting
+import src.modules.xlsx_formatting as xlsx_formatting
 
 import os.path
 from os.path import exists
 import xlsxwriter  # Library link: https://xlsxwriter.readthedocs.io/index.html
 from openpyxl import *
+
 
 """
     CREATING THE WORKBOOK BASED ON USER YEAR
@@ -89,6 +90,7 @@ def init_workbook(input_year):
         LOGGER.info("Leaving function: create_excel_workbook()")
         return wb
 
+
 def create_daily_worksheets(wb, list_of_dates):
     LOGGER.info("Adding '[DayName] [Month] [DayNumber]' sheets")
     # Add 'DayName Month DayNumber' sheets
@@ -106,7 +108,7 @@ def create_daily_worksheets(wb, list_of_dates):
         """
         ws.set_default_row(hide_unused_rows=True)
         xlsx_formatting.create_worksheet_headers(wb, ws)  # Add room columns and formatting
-        xlsx_formatting.create_formulas(wb, ws)  # Add formulas
+        xlsx_formatting.create_formulas(ws)  # Add formulas
 
         # Create y-axis time blocks
         if "Sun" in string_date:  # Create time format for Sundays
@@ -119,12 +121,13 @@ def create_daily_worksheets(wb, list_of_dates):
         else:
             xlsx_formatting.create_week_day_format(wb, ws)  # Create time format for weekdays
 
+
 def create_month_total_worksheets(wb, list_of_dates):
     LOGGER.info("Adding '[Month] Total' sheets")
     # Add monthly total sheets
     for month in MONTHS:
         ws = wb.add_worksheet(month + " Totals")
-        xlsx_formatting.create_month_total_format(ws, list_of_dates, month)
+        xlsx_formatting.create_month_total_format(wb, ws, list_of_dates, month)
 
 
 def create_year_total_worksheet(wb, input_year):
