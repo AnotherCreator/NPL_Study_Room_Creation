@@ -25,8 +25,38 @@
 """
 from src.constants import \
     ROOM_LABELS, COL_NAMES, ROW_NAMES, \
-    WEEKDAY_HOURS, SUN_SCHOOL_HOURS, SUN_SUMMER_HOURS, \
-    GENERAL_HEADER, CONFERENCE_ROOM_HEADER, CAPACITY_TWO, CAPACITY_FIVE, CAPACITY_SIX
+    WEEKDAY_HOURS, SUN_SCHOOL_HOURS, SUN_SUMMER_HOURS
+
+
+def get_general_header(wb):
+    return wb.add_format(
+        {"bold": True, "font": "Calibri", "font_size": 12, "align": "center"}
+    )
+
+
+def get_conference_room_header(wb):
+    return wb.add_format(
+        {"bold": True, "font": "Calibri", "bg_color": "00B0F0", "font_size": 12, "align": "center", }
+    )
+
+
+def get_capacity_two_header(wb):
+    return wb.add_format(
+        {"bold": True, "font": "Calibri", "bg_color": "red", "font_size": 12, "align": "center"}
+    )
+
+
+def get_capacity_five_header(wb):
+    return wb.add_format(
+        {"bold": True, "font": "Calibri", "bg_color": "yellow", "font_size": 12, "align": "center"}
+    )
+
+
+def get_capacity_six_header(wb):
+    return wb.add_format(
+        {"bold": True, "font": "Calibri", "bg_color": "lime", "font_size": 12, "align": "center"}
+    )
+
 
 def create_worksheet_headers(wb, ws):
     # Freeze Panes
@@ -39,28 +69,28 @@ def create_worksheet_headers(wb, ws):
 
     # Set row 1 column headers
     # Create "Time" header
-    ws.merge_range("A1:B2", "Time", GENERAL_HEADER)
+    ws.merge_range("A1:B2", "Time", get_general_header(wb))
 
     # Create headers using "study_rooms" function
     for key in ROOM_LABELS:
-        ws.write(key + "1", ROOM_LABELS.get(key), GENERAL_HEADER)
+        ws.write(key + "1", ROOM_LABELS.get(key), get_general_header(wb))
 
         if ROOM_LABELS.get(key) == "Study Room 5":
-            ws.write(key + "2", "Max Capacity: 5", CAPACITY_FIVE)
+            ws.write(key + "2", "Max Capacity: 5", get_capacity_five_header(wb))
 
         elif ROOM_LABELS.get(key) == "Study Room 9":
-            ws.write(key + "2", "Max Capacity: 6", CAPACITY_SIX)
+            ws.write(key + "2", "Max Capacity: 6", get_capacity_six_header(wb))
 
         elif ROOM_LABELS.get(key) == "Study Room 10" or ROOM_LABELS.get(key) == "Study Room 11":
-            ws.write(key + "2", "Max Capacity: 2", CAPACITY_TWO)
+            ws.write(key + "2", "Max Capacity: 2", get_capacity_two_header(wb))
 
         elif ROOM_LABELS.get(key) == "Conference Room":
             # Overwriting general header formatting to include blue bg
-            ws.write(key + "1", ROOM_LABELS.get(key), CONFERENCE_ROOM_HEADER)
-            ws.write(key + "2", "Max Capacity: 8", GENERAL_HEADER)
+            ws.write(key + "1", ROOM_LABELS.get(key), get_conference_room_header(wb))
+            ws.write(key + "2", "Max Capacity: 8", get_general_header(wb))
 
         else:
-            ws.write(key + "2", "Max Capacity: 4", GENERAL_HEADER)
+            ws.write(key + "2", "Max Capacity: 4", get_general_header(wb))
     return
 
 
@@ -157,7 +187,7 @@ def sun_reg_interval_times(wb, ws, interval_max=35):
                 min_interval += 15
 
 
-def create_formulas(wb, ws):
+def create_formulas(ws):
     # Formula to count total study room usage
     ws.write("A52", "Users")
     ws.write_formula("B52", "=COUNTA(C3:N50)")
@@ -192,7 +222,7 @@ def create_week_day_format(wb, ws):
                 continue
 
     for key in WEEKDAY_HOURS:
-        ws.merge_range(key, WEEKDAY_HOURS.get(key), GENERAL_HEADER)
+        ws.merge_range(key, WEEKDAY_HOURS.get(key), get_general_header(wb))
 
     weekday_interval_times(wb, ws)
 
@@ -229,7 +259,7 @@ def create_sat_format(wb, ws):
     for key in WEEKDAY_HOURS:
         if "A38" in key or "A42" in key or "A46" in key or "A50" in key:
             continue
-        ws.merge_range(key, WEEKDAY_HOURS.get(key), GENERAL_HEADER)
+        ws.merge_range(key, WEEKDAY_HOURS.get(key), get_general_header(wb))
 
     weekday_interval_times(wb, ws, 35)
 
@@ -263,7 +293,7 @@ def create_sun_format(wb, ws):  # For months excluding June, July, August
                 continue
 
     for key in SUN_SCHOOL_HOURS:
-        ws.merge_range(key, SUN_SCHOOL_HOURS.get(key), GENERAL_HEADER)
+        ws.merge_range(key, SUN_SCHOOL_HOURS.get(key), get_general_header(wb))
 
     sun_reg_interval_times(wb, ws)
 
@@ -297,7 +327,7 @@ def create_summer_sun_format(wb, ws):  # For months including June, July, August
                 continue
 
     for key in SUN_SUMMER_HOURS:
-        ws.merge_range(key, SUN_SUMMER_HOURS.get(key), GENERAL_HEADER)
+        ws.merge_range(key, SUN_SUMMER_HOURS.get(key), get_general_header(wb))
 
     sun_reg_interval_times(wb, ws, 19)
 
@@ -317,14 +347,14 @@ def month_total_indirect_formula(ws, n, string_date):
                      + indirect_formula_complete_half)
 
 
-def create_month_total_format(ws, numeric_date, month):
+def create_month_total_format(wb, ws, numeric_date, month):
     # Adjust column width
     ws.set_column(0, 0, 17.5)  # Study room columns "A" with width of 17.5
     ws.set_column(0, 1, 17.5)  # Study room columns "B" with width of 17.5
 
     # Add header
-    ws.write(0, 0, "Worksheet Name", GENERAL_HEADER)
-    ws.write(0, 1, "Totals", GENERAL_HEADER)
+    ws.write(0, 0, "Worksheet Name", get_general_header(wb))
+    ws.write(0, 1, "Totals", get_general_header(wb))
 
     # Add totals section
     ws.write(32, 0, "Month Totals")
