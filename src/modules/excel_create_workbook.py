@@ -24,7 +24,7 @@
     THIS FILE WILL HANDLE CREATING THE ACTUAL WORKBOOK AND WORKSHEETS
 """
 from src.constants import \
-    LOGGER, MONTHS, ROOM_LABELS
+    LOGGER, MONTHS
 import src.modules.xlsx_formatting as xlsx_formatting
 
 import os.path
