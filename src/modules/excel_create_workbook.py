@@ -32,10 +32,11 @@ from os.path import exists
 import xlsxwriter  # Library link: https://xlsxwriter.readthedocs.io/index.html
 from openpyxl import *
 
-
 """
     CREATING THE WORKBOOK BASED ON USER YEAR
 """
+
+
 def init_workbook(input_year):
     # Check if file was already created
     """ This section is for the macro-enabled master sheet style workbook
@@ -74,7 +75,7 @@ def init_workbook(input_year):
     if exists("Test " + str(input_year) + " Study Room Log.xlsx"):
         LOGGER.info("Existing file found, file not created")
         LOGGER.info("Attempting to fetch file: "
-                     + os.path.basename(str(input_year) + " Study Room Log.xlsx"))
+                    + os.path.basename(str(input_year) + " Study Room Log.xlsx"))
 
         existing_file = os.path.basename(str(input_year) + " Study Room Log.xlsx")
         wb = load_workbook(existing_file)

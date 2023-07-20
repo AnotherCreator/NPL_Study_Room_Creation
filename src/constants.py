@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 import logging
-import xlsxwriter
 
 LOGGER = logging.getLogger()
 

@@ -274,6 +274,9 @@ def create_month_total_format(wb, ws, numeric_date, month):
     ws.write(33, 0, "Cell Storing Users")
     ws.write(33, 1, "B52")
 
+    # Add cell for repo source
+    # ws.write_url(34, 0, "https://github.com/AnotherCreator/NPL_Study_Room_Creation", string="Spreadsheet Generator")
+
     #  Format each [Month] Total
     #  Might be able to simplify the following code by removing the month checks since individual month
     #  is already being passed in
